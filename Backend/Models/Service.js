@@ -10,7 +10,7 @@ const ServiceSchema = new mongoose.Schema({
     productPurchasedDate: {
         type: Date,
     },
-    productWarrabtyPeriod: {
+    productWarrantyPeriod: {
         type: Number,
     },
     claimDescription: {
