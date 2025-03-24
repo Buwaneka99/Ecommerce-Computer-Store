@@ -1,2 +1,8 @@
 import express from 'express';
-import { createSupplyRequest, getSupplyRequest, getSupplyRequests, updateSupplyRequest, deleteSupplyRequest } from '../Controllers/supplyRequestController.js';
+import { 
+    getSupplies,
+    getSupplyById,
+    createSupply,
+    updateSupply,
+    deleteSupply, 
+} from '../Controllers/supplyRequestController.js';
