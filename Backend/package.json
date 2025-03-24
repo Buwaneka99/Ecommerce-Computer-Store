@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "Buwaneka99",
   "license": "ISC",
-  "description": "",
+  "description": "Ecommerce Computer Store",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
