@@ -4,7 +4,6 @@ import cardbg from "../Assets/cardbg.png";
 function HeadLineCards({ setLoading, product }) {
 
   return (
-
     <div className="max-w-[1640px] mx-auto p-4 py-6 grid md:grid-cols-4 gap-6 bg-stone-950">
       {/* card */}
       {product.map((p, index) => {

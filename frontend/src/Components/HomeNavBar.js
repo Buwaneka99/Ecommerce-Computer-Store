@@ -11,6 +11,7 @@ import {
 import { BsFillCartFill, BsFillSaveFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { useGlobalReefetch } from "../Store/Store";
 
 const HomeNavBar = () => {
 
