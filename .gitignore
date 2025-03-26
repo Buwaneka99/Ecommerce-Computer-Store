@@ -2,6 +2,8 @@ node_modules/
 .env
 .qodo
 
+/backend/package
+/backend/package-lock.json
 
 /.pnp
 .pnp.js
