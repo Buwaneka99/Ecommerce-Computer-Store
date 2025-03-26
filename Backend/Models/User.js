@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, "Username is required"],
+        required: [true, "Please provide a username"],
     },
     email: {
         type: String,
-        required: [true, "Email is required"],
+        required: [true, "Please provide an email"],
         unique: true,
     },
     password: {
@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
             "inventory",
             "sales",
             "suppliers",
+            "promotion",
+            "feedback",
+            "service",
+            "delivery",
         ],
         default: "user",
     },

@@ -1,25 +1,32 @@
 import User from "../Models/User.js";
-import bcrypt from "bcryptjs";
+//import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
-export const UserRegister = async (req, res) => {
-  const { username, phoneNumber, email, password } = req.body;
+export const userRegister = async (req, res) => {
   
   try{
+    const { username, phoneNumber, email, password } = req.body;
+    //console.log(req.body);
 
    const emailExist = await User.findOne({ email });  
 
     if (emailExist) {
-        return res.status(409).json({ error: "Email already exists" });
+      return res.status(409).json({ error: "Email already exists" });
     }
     else {
-        const newUser = await User.create({
-            username,
-            phoneNumber,
-            email,
-            password,
-        });
+
+      // Hash the password (with salt rounds = 10)
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const newUser = await User.create({
+        username,
+        phoneNumber,
+        email,
+        password: hashedPassword,
+      });
       
-          res.status(201).json({newUser});
+      res.status(201).json({newUser});
     }
 
   } catch (error) {
@@ -29,13 +36,12 @@ export const UserRegister = async (req, res) => {
 };
 
 export const userLogin = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const user = await User.findOne({ email }).select("+password");
+    const { email, password } = req.body;
 
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ error: "Invalid email" });
+      return res.status(404).json({ error: "Invalid credentials" });
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
@@ -45,15 +51,12 @@ export const userLogin = async (req, res) => {
         }
 
     res.status(200).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
+      user: user
     });
     } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
-}
+};
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -80,5 +83,72 @@ export const getUserById = async (req, res) => {
     catch (error) {
       res.status(500).json({ message: error.message });
     }
-}
+};
 
+export const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { username, email, role, phoneNumber } = req.body;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.role = role || user.role;
+    user.phoneNumber = phoneNumber || user.phoneNumber;
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({ user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const userRegisterAdmin = async (req, res) => {
+  try {
+    const { username, email, password, phoneNumber, role } = req.body;
+
+    const existingAdmin = await User.findOne({ email });
+
+    if (existingAdmin) {
+      return res.status(400).json({ message: "User already exists" });
+    } else {
+
+      // Hash the password (with salt rounds = 10)
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const newAdmin = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+        role,
+        phoneNumber,
+      });
+      res.status(201).json({ user: newAdmin });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
