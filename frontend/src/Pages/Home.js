@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import HeadLineCards from "../Components/HeadLineCards";
 import Hero from "../Components/Hero";
+import NavBar from "../Components/HomeNavBar";
+import Promotions from "../Components/Promotions";
 const Home = () => {
 
   const [product, setProduct] = useState([]);
@@ -44,4 +47,6 @@ const Home = () => {
       <Promotions />
     </div>
   );
-}
+};
+
+export default Home;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import cardbg from "../assets/cardbg.png";
+import cardbg from "../Assets/cardbg.png";
 function HeadLineCards({ setLoading, product }) {
 
   return (
