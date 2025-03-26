@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import Hero from "../Components/Hero";
 const Home = () => {
 
   const [product, setProduct] = useState([]);

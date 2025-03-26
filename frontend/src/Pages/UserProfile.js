@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import UserDash from "./UserDash";
-import ProfilePic from "../assets/gamer.png";
+import ProfilePic from "../Assets/gamer.png";
 const Userprofile = () => {
 
   const [user, setUser] = useState(null);
