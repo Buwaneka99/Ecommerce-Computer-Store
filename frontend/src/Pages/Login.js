@@ -9,6 +9,12 @@ import { EyeSlashFilledIcon } from "../Icon/EyeSlashFilledIcon";
 import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+
+const formSchema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required(),
+});
+
 const Login = () => {
 
   const {
