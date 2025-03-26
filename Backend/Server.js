@@ -3,9 +3,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import connectMongoDB from "./db/connectMongoDB.js";
 import { createServer } from "http";
-//import { Server } from "socket.io";
+import { Server } from "socket.io";
 
 // Import Routes
 import userRoute from "./Routes/UserRoute.js";
@@ -13,9 +12,6 @@ import userRoute from "./Routes/UserRoute.js";
 dotenv.config();
 const app = express();
 const server = createServer(app);
-
-// Connect to MongoDB
-//connectMongoDB();
 
 const PORT = process.env.PORT || 5000;
 

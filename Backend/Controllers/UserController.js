@@ -129,19 +129,24 @@ export const userRegisterAdmin = async (req, res) => {
   try {
     const { username, email, password, phoneNumber, role } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingAdmin = await User.findOne({ email });
 
-    if (existingUser) {
+    if (existingAdmin) {
       return res.status(400).json({ message: "User already exists" });
     } else {
-      const newUser = await User.create({
+
+      // Hash the password (with salt rounds = 10)
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const newAdmin = await User.create({
         username,
         email,
-        password,
+        password: hashedPassword,
         role,
         phoneNumber,
       });
-      res.status(201).json({ user: newUser });
+      res.status(201).json({ user: newAdmin });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
