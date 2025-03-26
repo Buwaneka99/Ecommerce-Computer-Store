@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
 
-  const [user, setUser] = useState(null);
-  const [orders, setOrders] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
