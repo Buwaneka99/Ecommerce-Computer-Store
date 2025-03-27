@@ -7,8 +7,6 @@ import NotFound from "./Pages/NotFound";
 import Register from "./Pages/Register";
 import './App.css';
 
-// Supply Management
-import Supply from "./Pages/Supply and Promotion Management/Supply";
 
 function App() {
   return (
@@ -18,9 +16,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Supply Management Routes */}
-        <Route path="/dashboard/supply" element={<Supply />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
