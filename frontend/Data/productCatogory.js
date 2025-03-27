@@ -1,4 +1,4 @@
-export const productCategory = [
+export const ProductCategory = [
   {
     key: "1",
     value: "Laptops",

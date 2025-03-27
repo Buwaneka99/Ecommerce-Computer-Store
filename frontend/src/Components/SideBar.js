@@ -11,7 +11,7 @@ import { FcSalesPerformance } from "react-icons/fc";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { FcFeedback } from "react-icons/fc";
 import { MdMiscellaneousServices } from "react-icons/md";
-import newlogo from "../assets/newlogo.png";
+import newlogo from "../Assets/newlogo.png";
 
 const SideBar = () => {
 
