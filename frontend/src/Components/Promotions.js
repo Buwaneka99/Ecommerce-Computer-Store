@@ -11,7 +11,8 @@ const NavBar = () => {
         const res = await fetch("http://localhost:5000/products");
         const data = await res.json();
         setProduct(data.products);
-      } catch (error) {
+      } 
+      catch (error) {
         console.log(error);
       }
     };
