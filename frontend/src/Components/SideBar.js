@@ -15,6 +15,23 @@ import newlogo from "../assets/newlogo.png";
 
 const SideBar = () => {
 
+  const pathname = window.location.pathname;
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("authUser");
+    if (!user) {
+      window.location.href = "/login";
+    }
+
+    setUser(JSON.parse(user));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authUser");
+    window.location.href = "/login";
+  };
+
   return (
     <div className="sticky left-0 top-0 bg-black  w-80 flex flex-col justify-between rounded-lg  shadow-lg">
       <div className="px-2">
