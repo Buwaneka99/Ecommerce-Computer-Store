@@ -68,7 +68,7 @@ const RequestToSupplierModel = ({
             <ModalBody>
               <p>Request to supplier to add new items to the inventory</p>
 
-              <div className="flex flex-col gap-2 mt-4">
+              <div className="flex flex-col gap-2 mt-4" >
                 <form className="flex  flex-col gap-2">
                   <div className="flex gap-2">
                     <Input
