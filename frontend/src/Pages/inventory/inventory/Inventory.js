@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import Layout from "../../../layout/Layout";
-import addProduct from "../../../assets/add-product.png";
-import listProduct from "../../../assets/procurement.png";
-import bg from "../../../assets/TECHNOVA2.png";
+import Layout from "../../../Layout/Layout";
+import addProduct from "../../../Assets/add-product.png";
+import listProduct from "../../../Assets/procurement.png";
+import bg from "../../../Assets/TECHNOVA2.png";
 
 const Inventory = () => {
   return (

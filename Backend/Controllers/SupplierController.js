@@ -1,5 +1,5 @@
-import Supplier from "../Models/Supplier";
-import RequestSupplier from "../Models/RequestSupplier";
+import Supplier from "../Models/Supplier.js";
+import RequestSupplier from "../Models/RequestSupplier.js";
 
 export const createSupplier = async (req, res) => {
   try{
@@ -15,7 +15,7 @@ export const createSupplier = async (req, res) => {
 export const getSupplier = async (req, res) => {
   try{
     const suppliers = await Supplier.find();
-    res.status(200).json(suppliers);
+    res.status(200).json({ suppliers });
   }
   catch (error){
     res.status(500).json({ message: error.message });
@@ -61,13 +61,11 @@ export const updateSupplier = async (req, res) => {
 export const deleteSupplier = async (req, res) => {
   try{
     const { id } = req.params;
-    const supplier = await Supplier.findById(id);
+    const supplier = await Supplier.findByIdAndDelete(id);
 
     if(!supplier){
       return res.status(404).json({ message: "Supplier not found" });
     }
-
-    await supplier.remove();
 
     res.status(200).json({ message: "Supplier deleted successfully" });
   }

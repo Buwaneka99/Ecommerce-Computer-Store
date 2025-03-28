@@ -25,7 +25,7 @@ import RequestToSupplierModel from "./RequestToSupplierModel";
 const SupplierList = () => {
 
   const [page, setPage] = useState(1);
-  const [supplier, setSupplier] = useState([]);
+  const [suppliers, setSupplier] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [supplierId, setSupplierId] = useState("");
@@ -34,15 +34,15 @@ const SupplierList = () => {
   const { isOpen, onOpenChange } = useDisclosure();
   const navigate = useNavigate();
   const rowsPerPage = 6;
-  const pages = Math.ceil(supplier.length / rowsPerPage);
+  const pages = Math.ceil(suppliers.length / rowsPerPage);
 
   const filteredSupplier = useMemo(() => {
-    return supplier.filter(
+    return suppliers.filter(
       (item) =>
         item.supplierName.toLowerCase().includes(search.toLowerCase()) ||
         item.email.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search, supplier]);
+  }, [search, suppliers]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -56,7 +56,7 @@ const SupplierList = () => {
         const res = await fetch("http://localhost:5000/supplies");
         const data = await res.json();
 
-        setSupplier(data.supplier);
+        setSupplier(data.suppliers);
         setLoading(false);
         setRefetch(false);
       } catch (error) {
