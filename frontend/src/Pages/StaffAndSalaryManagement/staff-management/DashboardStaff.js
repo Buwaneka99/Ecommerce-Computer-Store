@@ -1,8 +1,8 @@
-import Layout from "../../../layout/Layout";
-import staff from "../../../assets/add1.png";
-import listStaff from "../../../assets/list.png";
+import Layout from "../../../Layout/Layout";
+import staff from "../../../Assets/add1.png";
+import listStaff from "../../../Assets/list.png";
 import { Link } from "react-router-dom";
-import bg from "../../../assets/TECHNOVA2.png";
+import bg from "../../../Assets/TECHNOVA2.png";
 
 const DashboardStaff = () => {
   return (

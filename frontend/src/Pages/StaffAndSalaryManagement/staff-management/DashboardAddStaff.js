@@ -1,12 +1,12 @@
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import Layout from "../../../layout/Layout";
+import Layout from "../../../Layout/Layout";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
 import { EyeFilledIcon } from "../../../Icon/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "../../../Icon/EyeSlashFilledIcon";
-import { roles } from "../../../data/roles";
+import { roles } from "../../../Data/roles";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
