@@ -18,7 +18,7 @@ export const getRequestSupplier = async (req, res) => {
   }
 };
 
-export const putReuestSupplier = async (req, res) => {
+export const putRequestSupplier = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -38,5 +38,5 @@ export const putReuestSupplier = async (req, res) => {
     res.status(200).json({ requestSupplier: updatedRequestSupplier });
   } catch (error) {
     res.status(500).json({ message: error.message });
-  }
-}
+  } 
+};

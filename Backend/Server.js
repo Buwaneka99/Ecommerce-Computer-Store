@@ -8,6 +8,7 @@ import { createServer } from "http";
 
 // Import Routes
 import userRoute from "./Routes/UserRoute.js";
+import supplyRoute from "./Routes/supplyRoute.js";
 
 dotenv.config();
 const app = express();
@@ -38,3 +39,4 @@ server.listen(PORT, () => {
 
 //API Routes
 app.use("/auth", userRoute);
+app.use("/supplies", supplyRoute);
