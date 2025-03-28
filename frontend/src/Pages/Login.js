@@ -130,6 +130,10 @@ const Login = () => {
         >
           {isSubmitting ? "Logging in..." : "Login"}
         </Button>
+
+        <a href="http://localhost:5000/auth/google">
+          <button>Login with Google</button>
+        </a>
   
         <div className="flex items-center justify-center gap-1 text-sm text-gray-300">
           <p>Don't have an account?</p>
