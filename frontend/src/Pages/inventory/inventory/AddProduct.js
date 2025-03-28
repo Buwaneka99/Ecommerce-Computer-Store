@@ -1,10 +1,10 @@
 import { Button, Input, Select, SelectItem,  } from "@nextui-org/react";
-import Layout from "../../../layout/Layout";
+import Layout from "../../../Layout/Layout";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
-import { productCategory } from "../../../data/productCatogory";
+import { ProductCategory } from "../../../Data/productCatogory";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -166,7 +166,7 @@ const AddProduct = () => {
                   errorMessage={errors.productName?.message}
                 />
                 <Select
-                  items={productCategory}
+                  items={ProductCategory}
                   label="product Category"
                   placeholder="Select product Category"
                   variant="filled"
@@ -175,7 +175,7 @@ const AddProduct = () => {
                   {...register("category")}
                   isInvalid={errors.category}
                 >
-                  {productCategory.map((item) => (
+                  {ProductCategory.map((item) => (
                     <SelectItem key={item.value} value={item.value}>
                       {item.value}
                     </SelectItem>
