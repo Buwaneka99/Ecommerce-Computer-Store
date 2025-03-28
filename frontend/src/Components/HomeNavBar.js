@@ -3,12 +3,10 @@ import { useState } from "react";
 import logo from "../Assets/newlogo.png";
 import { FaUserCircle } from "react-icons/fa";
 import {
-  AiFillTag,
-  AiOutlineClose,
   AiOutlineMenu,
   AiOutlineSearch,
 } from "react-icons/ai";
-import { BsFillCartFill, BsFillSaveFill } from "react-icons/bs";
+import { BsFillCartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { useGlobalReefetch } from "../Store/Store";
@@ -18,7 +16,7 @@ const HomeNavBar = () => {
   const [nav, setNav] = useState(false);
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState(null);
-  const { globalRefetch, setGlobalRefetch } = useGlobalReefetch();
+  const { globalRefetch } = useGlobalReefetch();
   const [search, setSearch] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState(search);
