@@ -7,6 +7,12 @@ import NotFound from "./Pages/NotFound";
 import Register from "./Pages/Register";
 import './App.css';
 
+// Supply Management
+import Supply from "./Pages/Supply and Promotion Management/Supply";
+import AddSupplier from "./Pages/Supply and Promotion Management/AddSupplier";
+import EditSupplier from "./Pages/Supply and Promotion Management/EditSupplier";
+import SupplierList from "./Pages/Supply and Promotion Management/SupplierList";
+import SupplierRequest from "./Pages/Supply and Promotion Management/SupplyRequests";
 
 import Inventory from "./pages/inventory/inventory/Inventory";
 import AddProduct from "./pages/inventory/inventory/AddProduct";
@@ -23,7 +29,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
 
-
         {/* Supply Management Routes */}
         <Route path="/dashboard/supply" element={<Supply />} />
         <Route path="/dashboard/supply/add" element={<AddSupplier />} />
@@ -31,11 +36,16 @@ function App() {
         <Route path="/dashboard/supply/list" element={<SupplierList />} />
         <Route path="/dashboard/supply/request-list" element={<SupplierRequest />} />
 
-          {/* Product management */}
-                <Route path="/dashboard/products" element={<Inventory />} />
-                <Route path="/dashboard/products/add" element={<AddProduct />} />
-                <Route path="/dashboard/products/list" element={<ProductsList />} />
-                <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
+       {/* Product management */}
+       <Route path="/dashboard/products" element={<Inventory />} />
+       <Route path="/dashboard/products/add" element={<AddProduct />} />
+       <Route path="/dashboard/products/list" element={<ProductsList />} />
+       <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
+
+
+        {/* 404 Not Found Route */}
+        <Route path="*" element={<NotFound />} />
+        
 
 
         {/* 404 Not Found Route */}
