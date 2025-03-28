@@ -14,11 +14,6 @@ import EditSupplier from "./Pages/Supply and Promotion Management/EditSupplier";
 import SupplierList from "./Pages/Supply and Promotion Management/SupplierList";
 import SupplierRequest from "./Pages/Supply and Promotion Management/SupplyRequests";
 
-import Inventory from "./pages/inventory/inventory/Inventory";
-import AddProduct from "./pages/inventory/inventory/AddProduct";
-import ProductsList from "./pages/inventory/inventory/ProductsList";
-import EditProduct from "./pages/inventory/inventory/EditProduct";
-
 function App() {
   return (
     <Router>
@@ -36,22 +31,9 @@ function App() {
         <Route path="/dashboard/supply/list" element={<SupplierList />} />
         <Route path="/dashboard/supply/request-list" element={<SupplierRequest />} />
 
-       {/* Product management */}
-       <Route path="/dashboard/products" element={<Inventory />} />
-       <Route path="/dashboard/products/add" element={<AddProduct />} />
-       <Route path="/dashboard/products/list" element={<ProductsList />} />
-       <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
-
-
         {/* 404 Not Found Route */}
         <Route path="*" element={<NotFound />} />
         
-
-
-        {/* 404 Not Found Route */}
-        <Route path="*" element={<NotFound />} />
-        
-
       </Routes>
     </Router>
   );
