@@ -10,6 +10,7 @@ import NotFound from "./Pages/NotFound";
 import Register from "./Pages/Register";
 
 // Staff and Salary Management
+import DashboardStaff from "./Pages/StaffAndSalaryManagement/staff-management/DashboardStaff";
 
 
 // Supply Management
@@ -37,6 +38,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Staff and Salary Management */}
+        <Route path="/dashboard/staff" element={<DashboardStaff />} />
 
         {/* Supply Management Routes */}
         <Route path="/dashboard/supply" element={<Supply />} />
