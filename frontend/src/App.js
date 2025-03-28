@@ -9,6 +9,9 @@ import Dashboard from "./Pages/Dashboard";
 import NotFound from "./Pages/NotFound";
 import Register from "./Pages/Register";
 
+// Staff and Salary Management
+
+
 // Supply Management
 import Supply from "./Pages/Supply and Promotion Management/Supply";
 import AddSupplier from "./Pages/Supply and Promotion Management/AddSupplier";
@@ -32,6 +35,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* Staff and Salary Management */}
 
         {/* Supply Management Routes */}
         <Route path="/dashboard/supply" element={<Supply />} />
