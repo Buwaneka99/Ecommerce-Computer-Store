@@ -14,10 +14,12 @@ import EditSupplier from "./Pages/Supply and Promotion Management/EditSupplier";
 import SupplierList from "./Pages/Supply and Promotion Management/SupplierList";
 import SupplierRequest from "./Pages/Supply and Promotion Management/SupplyRequests";
 
-import Inventory from "./pages/inventory/inventory/Inventory";
-import AddProduct from "./pages/inventory/inventory/AddProduct";
-import ProductsList from "./pages/inventory/inventory/ProductsList";
-import EditProduct from "./pages/inventory/inventory/EditProduct";
+// Product Management
+import Inventory from "./Pages/inventory/inventory/Inventory";
+import AddProduct from "./Pages/inventory/inventory/AddProduct";
+import ProductsList from "./Pages/inventory/inventory/ProductsList";
+import EditProduct from "./Pages/inventory/inventory/EditProduct";
+import ProductPage from "./Pages/ProductPage";
 
 function App() {
   return (
@@ -36,21 +38,18 @@ function App() {
         <Route path="/dashboard/supply/list" element={<SupplierList />} />
         <Route path="/dashboard/supply/request-list" element={<SupplierRequest />} />
 
-       {/* Product management */}
-       <Route path="/dashboard/products" element={<Inventory />} />
-       <Route path="/dashboard/products/add" element={<AddProduct />} />
-       <Route path="/dashboard/products/list" element={<ProductsList />} />
-       <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
-
-
-        {/* 404 Not Found Route */}
-        <Route path="*" element={<NotFound />} />
+        {/* Product management */}
+        <Route path="/dashboard/products" element={<Inventory />} />
+        <Route path="/dashboard/products/add" element={<AddProduct />} />
+        <Route path="/dashboard/products/list" element={<ProductsList />} />
+        <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         
 
 
         {/* 404 Not Found Route */}
         <Route path="*" element={<NotFound />} />
-        
+
 
       </Routes>
     </Router>
