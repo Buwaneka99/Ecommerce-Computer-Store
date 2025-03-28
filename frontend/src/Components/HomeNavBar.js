@@ -16,7 +16,7 @@ const HomeNavBar = () => {
   const [nav, setNav] = useState(false);
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState(null);
-  const { globalRefetch, setGlobalRefetch } = useGlobalReefetch();
+  const { globalRefetch } = useGlobalReefetch();
   const [search, setSearch] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState(search);
