@@ -1,4 +1,4 @@
-export const Roles = [
+export const roles = [
   {
     key: "admin",
     value: "Admin",
