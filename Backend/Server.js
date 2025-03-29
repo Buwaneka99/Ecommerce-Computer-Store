@@ -17,6 +17,7 @@ import supplyRoute from "./Routes/supplyRoute.js";
 //import supplyRequestRoute from "./Routes/supplyRequestRoute.js";
 //import supplierRoute from "./Routes/supplierRoute.js";
 import productRoute from "./Routes/productRouter.js";
+import orderRoute from "./Routes/orderRouter.js";
 
 
 dotenv.config();
@@ -88,4 +89,5 @@ app.get('/auth/logout', (req, res) => {
 app.use("/auth", userRoute);
 app.use("/supplies", supplyRoute);
 app.use("/products", productRoute);
+app.use("/orders", orderRoute);
 
