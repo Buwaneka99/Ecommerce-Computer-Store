@@ -31,6 +31,15 @@ import ProductsList from "./Pages/inventory/inventory/ProductsList";
 import EditProduct from "./Pages/inventory/inventory/EditProduct";
 import ProductPage from "./Pages/ProductPage";
 
+//sales and order management
+import Cart from "./Pages/OrderAndSalesManagement/Cart";
+import UserOrders from "./Pages/OrderAndSalesManagement/UserOrders";
+import SalesManager from "./Pages/OrderAndSalesManagement/SalesManager";
+import SalesList from "./Pages/OrderAndSalesManagement/SalesList";
+
+import DeliveryManager from "./Pages/OrderAndSalesManagement/DeliveryManager";
+import OrderList from "./Pages/OrderAndSalesManagement/OrderList";
+
 function App() {
   return (
     <Router>
@@ -64,7 +73,14 @@ function App() {
         <Route path="/dashboard/products/list" element={<ProductsList />} />
         <Route path="/dashboard/products/edit/:id" element={<EditProduct />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        
+
+        {/* Sales manager */}
+        <Route path="/dashboard/sales" element={<SalesManager />} />
+        <Route path="/dashboard/sales/list" element={<SalesList />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/user/orders" element={<UserOrders />} />
+        <Route path="/dashboard/delivery" element={<DeliveryManager />} />
+        <Route path="/dashboard/order/list" element={<OrderList />} />       
 
 
         {/* 404 Not Found Route */}
