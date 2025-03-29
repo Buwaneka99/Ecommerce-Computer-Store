@@ -8,6 +8,7 @@ import Login from "./Pages/Login";
 import Dashboard from "./Pages/Dashboard";
 import NotFound from "./Pages/NotFound";
 import Register from "./Pages/Register";
+import UserProfile from "./Pages/UserProfile";
 
 // Staff and Salary Management
 import DashboardStaff from "./Pages/StaffAndSalaryManagement/staff-management/DashboardStaff";
@@ -31,6 +32,7 @@ import ProductsList from "./Pages/inventory/inventory/ProductsList";
 import EditProduct from "./Pages/inventory/inventory/EditProduct";
 import ProductPage from "./Pages/ProductPage";
 
+
 function App() {
   return (
     <Router>
@@ -40,6 +42,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/user/profile" element={<UserProfile />} />
 
         {/* Staff and Salary Management */}
         <Route path="/dashboard/staff" element={<DashboardStaff />} />
