@@ -1,6 +1,6 @@
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const User = require('./Models/User'); // Your MongoDB User model
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import User from '../Models/User.js'; 
 
 // Debugging - Log environment variables (remove in production)
 console.log("Google Client ID:", process.env.GOOGLE_CLIENT_ID);
