@@ -9,6 +9,7 @@ import { EyeSlashFilledIcon } from "../Icon/EyeSlashFilledIcon";
 import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 const formSchema = yup.object().shape({
   email: yup.string().email().required(),
@@ -68,6 +69,10 @@ const Login = () => {
         toast.error("Something went wrong");
       }
     }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:5000/auth/google';
   };
 
   return (
@@ -131,9 +136,14 @@ const Login = () => {
           {isSubmitting ? "Logging in..." : "Login"}
         </Button>
 
-        <a href="http://localhost:5000/auth/google">
-          <button>Login with Google</button>
-        </a>
+        <Button
+            onClick={handleGoogleLogin}
+            size="md"
+            className="w-full bg-red-500 text-white font-semibold rounded-lg py-2 hover:bg-red-600 transition-all shadow-lg shadow-red-500/30 flex items-center justify-center gap-2"
+          >
+            <img src="/google-icon.png" alt="Google" className="w-5 h-5" />
+            Login with Google
+        </Button>
   
         <div className="flex items-center justify-center gap-1 text-sm text-gray-300">
           <p>Don't have an account?</p>

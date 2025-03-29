@@ -61,8 +61,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Google Auth Routes
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-app.get('/auth/google/callback', passport.authenticate('google', { successRedirect: 'http://localhost:3000/dashboard', failureRedirect: '/login' }));
+app.get('/auth/google', 
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.json({ user: req.user });
+    res.redirect('/');  // Redirect after login
+  }
+);
 
 // Check if user is logged in (for API calls)
 app.get('/api/user', (req, res) => {
