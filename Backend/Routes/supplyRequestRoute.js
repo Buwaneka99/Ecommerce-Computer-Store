@@ -1,4 +1,5 @@
-import { getRequestSupplier, putRequestSupplier, createRequestSupplier } from "../Controllers/supplyRequestController";
+import express from "express";
+import { getRequestSupplier, putRequestSupplier, createRequestSupplier } from "../Controllers/supplyRequestController.js";
 
 const supplyRequestRouter = express.Router();
 

@@ -31,8 +31,8 @@ const SupplierList = () => {
   const [supplierId, setSupplierId] = useState("");
   const [refetch, setRefetch] = useState(false);
   const [supplierValue, setSupplierValue] = useState(null);
-  const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onOpenChange: onDeleteOpenChange } = useDisclosure();
   const { isOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onOpenChange: onDeleteOpenChange } = useDisclosure();
   const navigate = useNavigate();
   const rowsPerPage = 6;
   const pages = Math.ceil(suppliers.length / rowsPerPage);
@@ -192,7 +192,7 @@ const SupplierList = () => {
                         <MdDeleteSweep
                           onClick={() => {
                             setSupplierId(item._id);
-                            onOpenChange();
+                            onDeleteOpen();
                           }}
                         />
                       </span>
@@ -214,6 +214,7 @@ const SupplierList = () => {
           </Table>
         </div>
       </div>
+      {/* Delete Modal */}
       <DeleteSupplierModel
         isOpen={isDeleteOpen}
         onOpenChange={onDeleteOpenChange}

@@ -1,3 +1,5 @@
+
+import axios from "axios";
 import {
   Button,
   Modal,
@@ -6,14 +8,13 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import axios from "axios";
 
-const DeleteSupplierModel = ({ 
+const DeleteCouponModel = ({
   isOpen,
   onOpenChange,
-  supplierId,
-  setSupplier,
-  setSupplierId,
+  couponId,
+  setCoupon,
+  setCouponId,
   setRefetch,
 }) => {
   return (
@@ -22,10 +23,10 @@ const DeleteSupplierModel = ({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              <h4>Delete Supplier</h4>
+              <h4>Delete Coupon</h4>
             </ModalHeader>
             <ModalBody>
-              <p>Are you sure you want to delete this product</p>
+              <p>Are you sure you want to delete this coupon</p>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
@@ -33,17 +34,17 @@ const DeleteSupplierModel = ({
               </Button>
               <Button
                 color="primary"
-                disabled={!supplierId}
+                disabled={!couponId}
                 onClick={async () => {
-                  if (supplierId) {
+                  if (couponId) {
                     try {
                       await axios.delete(
-                        `http://localhost:5000/supplies/${supplierId}`
+                        `http://localhost:5000/coupon/${couponId}`
                       );
-                      setSupplier((prevStaff) =>
-                        prevStaff.filter((item) => item._id !== supplierId)
+                      setCoupon((prevCoupon) =>
+                        prevCoupon.filter((item) => item._id !== couponId)
                       );
-                      setSupplierId(null);
+                      setCouponId(null);
                     } catch (error) {
                       console.log(error);
                     }
@@ -61,4 +62,4 @@ const DeleteSupplierModel = ({
   );
 };
 
-export default DeleteSupplierModel;
+export default DeleteCouponModel;

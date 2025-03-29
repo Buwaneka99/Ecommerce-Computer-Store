@@ -40,7 +40,7 @@ const EditSupplier = () => {
     try {
       await axios.put(`http://localhost:5000/supplies/${id}`, data);
 
-      toast.success("Added successfully");
+      toast.success("Updated  successfully");
 
       navigate("/dashboard/supply/list");
     } catch (error) {

@@ -21,8 +21,8 @@ export const userRegister = async (req, res) => {
 
       const newUser = await User.create({
         username,
-        phoneNumber,
         email,
+        phoneNumber,
         password: hashedPassword,
       });
       
@@ -59,7 +59,7 @@ export const userLogin = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json(users);
+    res.status(200).json({ users });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -76,7 +76,7 @@ export const getUserById = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json(user);
+    res.status(200).json({ user });
   } 
     catch (error) {
       res.status(500).json({ message: error.message });
