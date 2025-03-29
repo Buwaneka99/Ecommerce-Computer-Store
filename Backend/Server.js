@@ -14,10 +14,12 @@ import session from "express-session";
 // Import Routes
 import userRoute from "./Routes/UserRoute.js";
 import supplyRoute from "./Routes/supplyRoute.js";
-//import supplyRequestRoute from "./Routes/supplyRequestRoute.js";
-//import supplierRoute from "./Routes/supplierRoute.js";
+import supplyRequestRoute from "./Routes/supplyRequestRoute.js";
+import promotionRoute from "./Routes/PromotionRoute.js";
 import productRoute from "./Routes/productRouter.js";
 import orderRoute from "./Routes/orderRouter.js";
+import promotionRoutes from "./Routes/PromotionRoute.js";
+
 
 
 dotenv.config();
@@ -90,4 +92,6 @@ app.use("/auth", userRoute);
 app.use("/supplies", supplyRoute);
 app.use("/products", productRoute);
 app.use("/orders", orderRoute);
+app.use("/supply-request", supplyRequestRoute);
+app.use("/coupon", promotionRoute);
 

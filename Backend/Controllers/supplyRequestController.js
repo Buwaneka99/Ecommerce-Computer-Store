@@ -1,4 +1,4 @@
-import RequestSupplier from "../Models/RequestSupplier";
+import RequestSupplier from "../Models/RequestSupplier.js";
 
 export const createRequestSupplier = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ export const createRequestSupplier = async (req, res) => {
 export const getRequestSupplier = async (req, res) => {
   try {
     const requestSuppliers = await RequestSupplier.find();
-    res.status(200).json(requestSuppliers);
+    res.status(200).json({ requestSuppliers });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
