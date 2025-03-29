@@ -121,7 +121,7 @@ const SideBar = () => {
               </Link>
             </div>
           )}
-          {(user?.role === "sales" || user?.role === "admin") && (
+          {(user?.role === "sales" || user?.role === "admin" || user?.role === "delivery" ) && (
             <div className="flex flex-col px-4 gap-4 border-t p-2 border-black ">
               <Link
                 to="/dashboard/sales"
@@ -136,7 +136,7 @@ const SideBar = () => {
               </Link>
             </div>
           )}
-          {(user?.role === "delivery" || user?.role === "admin") && (
+          {(user?.role === "delivery" || user?.role === "admin" || user?.role === "sales") && (
             <div className="flex flex-col px-4 gap-4 border-t p-2 border-black ">
               <Link
                 to="/dashboard/delivery"
