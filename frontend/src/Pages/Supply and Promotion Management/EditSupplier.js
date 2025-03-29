@@ -40,7 +40,7 @@ const EditSupplier = () => {
     try {
       await axios.put(`http://localhost:5000/supplies/${id}`, data);
 
-      toast.success("Added successfully");
+      toast.success("Updated  successfully");
 
       navigate("/dashboard/supply/list");
     } catch (error) {
@@ -57,31 +57,45 @@ const EditSupplier = () => {
     const fetchSupplier = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/supplies/${id}`);
-        const data = res.data;
 
-        console.log(data);
+        // Check if response data exists
+        if (!res.data) {
+          console.error('Empty response received from API');
+          toast.error('No data received from server');
+          navigate("/dashboard/supply/list");
+          return;
+        }
+        
+        const supplierData = res.data.supplier || res.data;
 
-        if (data?.supplier) {
+        console.log(supplierData);
+
+        if (supplierData) {
+          console.log('Supplier data found:', supplierData);
           reset({
-            supplierName: data.supplier.supplierName,
-            companyName: data.supplier.companyName,
-            email: data.supplier.email,
-            phoneNumber: data.supplier.phoneNumber,
-            supplyProduct: data.supplier.supplyProduct,
-            address: data.supplier.address,
+            supplierName: supplierData.supplierName,
+            companyName: supplierData.companyName,
+            email: supplierData.email,
+            phoneNumber: supplierData.phoneNumber,
+            supplyProduct: supplierData.supplyProduct,
+            address: supplierData.address,
           });
         }else {
-          console.error("Supplier data not found");
+          console.error('Supplier data not found in response:', res.data);
+          navigate("/dashboard/supply/list");
         }
 
         setIsLoading(false);
       } catch (error) {
+        console.error("Error fetching supplier:", error);
+        toast.error(error.response?.data?.message || 'Failed to load supplier');
+        navigate("/dashboard/supply/list");
         console.log(error);
       }
     };
 
     fetchSupplier();
-  }, [id]);
+  }, [id, reset, navigate]);
 
   if (isLoading) {
     return (
