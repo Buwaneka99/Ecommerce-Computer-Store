@@ -28,9 +28,6 @@ const UserSchema = new mongoose.Schema({
         ],
         default: "user",
     },
-    googleID: {
-        type: String,
-    },
 });
 
 const User = mongoose.model("User", UserSchema);

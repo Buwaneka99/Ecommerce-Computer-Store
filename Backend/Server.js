@@ -6,11 +6,6 @@ import dotenv from "dotenv";
 import { createServer } from "http";
 //import { Server } from "socket.io";
 
-// Google Auth
-import { OAuth2Client } from "google-auth-library";
-import passport from "./Config/passport.js";
-import session from "express-session";
-
 // Import Routes
 import userRoute from "./Routes/UserRoute.js";
 import supplyRoute from "./Routes/supplyRoute.js";
@@ -38,51 +33,13 @@ mongoose.connect(URL)
     })
     .catch((error) => {
         console.error("❌ Connection error:", error);
-        process.exit(1);
     });
 
 // Start server
 server.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`🔑 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
 });
 
-// Middleware for session management
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
-  })
-);
-
-// Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Google Auth Routes
-app.get('/auth/google', 
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
-app.get('/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    res.json({ user: req.user });
-    res.redirect('/');  // Redirect after login
-  }
-);
-
-// Check if user is logged in (for API calls)
-app.get('/api/user', (req, res) => {
-  if (req.user) res.json(req.user);
-  else res.status(401).json({ error: "Not logged in" });
-});
-
-// Logout
-app.get('/auth/logout', (req, res) => {
-  req.logout();
-  res.redirect('http://localhost:3000');
-});
 
 
 //API Routes
@@ -90,4 +47,3 @@ app.use("/auth", userRoute);
 app.use("/supplies", supplyRoute);
 app.use("/products", productRoute);
 app.use("/orders", orderRoute);
-

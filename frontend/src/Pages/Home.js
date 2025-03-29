@@ -1,24 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import HeadLineCards from "../Components/HeadLineCards";
 import Hero from "../Components/Hero";
 import NavBar from "../Components/HomeNavBar";
 import Promotions from "../Components/Promotions";
 const Home = () => {
 
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Check if user is authenticated
-    const authUser = localStorage.getItem("authUser");
-    if (authUser) {
-      setUser(JSON.parse(authUser));
-    }
-  }, []);
 
   useEffect(() => {
 

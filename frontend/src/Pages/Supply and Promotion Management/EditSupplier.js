@@ -59,8 +59,6 @@ const EditSupplier = () => {
         const res = await axios.get(`http://localhost:5000/supplies/${id}`);
         const data = res.data;
 
-        console.log(data);
-
         if (data?.supplier) {
           reset({
             supplierName: data.supplier.supplierName,
@@ -70,8 +68,6 @@ const EditSupplier = () => {
             supplyProduct: data.supplier.supplyProduct,
             address: data.supplier.address,
           });
-        }else {
-          console.error("Supplier data not found");
         }
 
         setIsLoading(false);

@@ -16,8 +16,8 @@ import { FaUserEdit } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import DeleteSupplierModel from "./DeleteSupplierModel";
 import { MdAddBusiness } from "react-icons/md";
 import RequestToSupplierModel from "./RequestToSupplierModel";
@@ -31,7 +31,6 @@ const SupplierList = () => {
   const [supplierId, setSupplierId] = useState("");
   const [refetch, setRefetch] = useState(false);
   const [supplierValue, setSupplierValue] = useState(null);
-  const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onOpenChange: onDeleteOpenChange } = useDisclosure();
   const { isOpen, onOpenChange } = useDisclosure();
   const navigate = useNavigate();
   const rowsPerPage = 6;
@@ -215,8 +214,8 @@ const SupplierList = () => {
         </div>
       </div>
       <DeleteSupplierModel
-        isOpen={isDeleteOpen}
-        onOpenChange={onDeleteOpenChange}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
         supplierId={supplierId}
         setSupplierId={setSupplierId}
         setRefetch={setRefetch}
