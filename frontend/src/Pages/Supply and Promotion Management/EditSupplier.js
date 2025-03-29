@@ -57,45 +57,31 @@ const EditSupplier = () => {
     const fetchSupplier = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/supplies/${id}`);
+        const data = res.data;
 
-        // Check if response data exists
-        if (!res.data) {
-          console.error('Empty response received from API');
-          toast.error('No data received from server');
-          navigate("/dashboard/supply/list");
-          return;
-        }
-        
-        const supplierData = res.data.supplier || res.data;
+        console.log(data);
 
-        console.log(supplierData);
-
-        if (supplierData) {
-          console.log('Supplier data found:', supplierData);
+        if (data?.supplier) {
           reset({
-            supplierName: supplierData.supplierName,
-            companyName: supplierData.companyName,
-            email: supplierData.email,
-            phoneNumber: supplierData.phoneNumber,
-            supplyProduct: supplierData.supplyProduct,
-            address: supplierData.address,
+            supplierName: data.supplier.supplierName,
+            companyName: data.supplier.companyName,
+            email: data.supplier.email,
+            phoneNumber: data.supplier.phoneNumber,
+            supplyProduct: data.supplier.supplyProduct,
+            address: data.supplier.address,
           });
         }else {
-          console.error('Supplier data not found in response:', res.data);
-          navigate("/dashboard/supply/list");
+          console.error("Supplier data not found");
         }
 
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching supplier:", error);
-        toast.error(error.response?.data?.message || 'Failed to load supplier');
-        navigate("/dashboard/supply/list");
         console.log(error);
       }
     };
 
     fetchSupplier();
-  }, [id, reset, navigate]);
+  }, [id]);
 
   if (isLoading) {
     return (

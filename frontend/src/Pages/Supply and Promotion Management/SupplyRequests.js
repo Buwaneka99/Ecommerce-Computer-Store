@@ -17,7 +17,7 @@ import axios from "axios";
 const SupplierList = () => {
 
   const [page, setPage] = useState(1);
-  const [supplier, setSupplier] = useState([]);
+  const [requestSuppliers, setSupplier] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -25,15 +25,15 @@ const SupplierList = () => {
 
 
   const rowsPerPage = 6;
-  const pages = Math.ceil(supplier.length / rowsPerPage);
+  const pages = Math.ceil(requestSuppliers.length / rowsPerPage);
 
   const filteredSupplier = useMemo(() => {
-    return supplier.filter(
+    return requestSuppliers.filter(
       (item) =>
         item.supplierName.toLowerCase().includes(search.toLowerCase()) ||
         item.email.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search, supplier]);
+  }, [search, requestSuppliers]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -47,7 +47,7 @@ const SupplierList = () => {
         const res = await fetch("http://localhost:5000/supply-request");
         const data = await res.json();
 
-        setSupplier(data.suppliers);
+        setSupplier(data.requestSuppliers);
         setLoading(false);
         setRefetch(false);
       } catch (error) {

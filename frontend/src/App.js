@@ -25,6 +25,13 @@ import EditSupplier from "./Pages/Supply and Promotion Management/EditSupplier";
 import SupplierList from "./Pages/Supply and Promotion Management/SupplierList";
 import SupplierRequest from "./Pages/Supply and Promotion Management/SupplyRequests";
 
+// Promotion Management
+import PromotionManager from "./Pages/Supply and Promotion Management/Promotion/PromotionManager";
+import PromotionItems from "./Pages/Supply and Promotion Management/Promotion/PromotionItems";
+import AddCoupon from "./Pages/Supply and Promotion Management/Promotion/AddCoupon";
+import CouponList from "./Pages/Supply and Promotion Management/Promotion/CouponList";
+import EditCoupon from "./Pages/Supply and Promotion Management/Promotion/EditCoupon";
+
 // Product Management
 import Inventory from "./Pages/inventory/inventory/Inventory";
 import AddProduct from "./Pages/inventory/inventory/AddProduct";
@@ -68,6 +75,19 @@ function App() {
         <Route path="/dashboard/supply/edit/:id" element={<EditSupplier />} />
         <Route path="/dashboard/supply/list" element={<SupplierList />} />
         <Route path="/dashboard/supply/request-list" element={<SupplierRequest />} />
+
+        {/*Promotion manager*/}
+        <Route path="/dashboard/promotion" element={<PromotionManager />} />
+        <Route path="/dashboard/promotion/items" element={<PromotionItems />} />
+        <Route path="/dashboard/promotion/coupon/add" element={<AddCoupon />} />
+        <Route
+          path="/dashboard/promotion/coupon/list"
+          element={<CouponList />}
+        />
+        <Route
+          path="/dashboard/promotion/coupon/edit/:id"
+          element={<EditCoupon />}
+        />
 
         {/* Product management */}
         <Route path="/dashboard/products" element={<Inventory />} />

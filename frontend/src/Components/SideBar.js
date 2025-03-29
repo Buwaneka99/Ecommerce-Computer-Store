@@ -102,7 +102,7 @@ const SideBar = () => {
                 }
               >
                 <GiProgression size={20} className="text-white" />
-                <span className="ml-2 text-white">Supply Manager</span>
+                <span className="ml-2 text-white">SupplyS</span>
               </Link>
             </div>
           )}
@@ -117,7 +117,7 @@ const SideBar = () => {
                 }
               >
                 <CiDiscount1 size={20} className="text-white" />
-                <span className="ml-2 text-white">Promotion Manager</span>
+                <span className="ml-2 text-white">Promotions</span>
               </Link>
             </div>
           )}
