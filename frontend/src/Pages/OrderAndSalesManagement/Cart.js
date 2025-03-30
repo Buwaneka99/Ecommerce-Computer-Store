@@ -112,6 +112,7 @@ const Cart = () => {
   };
 
   return (
+    <dev className="bg-black text-white min-h-screen">
     <>
       <NavBar />
       <section className="bg-black py-8 antialiased  md:py-16">
@@ -403,6 +404,7 @@ const Cart = () => {
         total={total}
       />
     </>
+    </dev>
   );
 };
 export default Cart;
