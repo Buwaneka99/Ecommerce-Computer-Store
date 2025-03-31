@@ -9,12 +9,13 @@ import { Button, Input, Textarea } from "@nextui-org/react";
 
 const formSchema = yup.object().shape({
   email: yup.string().email().required("Email is required"),
-  supplierName: yup.string("Supplier name is required").required().min(3),
+  supplierName: yup.string("Supplier name is required").required().min(3)
+  .matches(/^[A-Za-z\s]+$/, "Supplier name must only contain letters"),
   phoneNumber: yup
     .string()
     .required("Phone number is required")
     .min(10, "Phone number must be at least 10 digits")
-    .max(12, "Phone number must be at most 12 digits"),
+    .max(10, "Phone number must be at most 12 digits"),
   companyName: yup.string().required("Company name is required").min(3),
   address: yup.string().required("Address is required").min(3),
   supplyProduct: yup.string().required("Supply product is required").min(3),

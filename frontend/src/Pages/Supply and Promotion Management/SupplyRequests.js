@@ -13,27 +13,26 @@ import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import "jspdf-autotable";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const SupplierList = () => {
 
   const [page, setPage] = useState(1);
-  const [requestSuppliers, setSupplier] = useState([]);
+  const [supplier, setSupplier] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-
   const [refetch, setRefetch] = useState(false);
 
-
   const rowsPerPage = 6;
-  const pages = Math.ceil(requestSuppliers.length / rowsPerPage);
+  const pages = Math.ceil(supplier.length / rowsPerPage);
 
   const filteredSupplier = useMemo(() => {
-    return requestSuppliers.filter(
+    return supplier.filter(
       (item) =>
         item.supplierName.toLowerCase().includes(search.toLowerCase()) ||
         item.email.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search, requestSuppliers]);
+  }, [search, supplier]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -47,11 +46,11 @@ const SupplierList = () => {
         const res = await fetch("http://localhost:5000/supply-request");
         const data = await res.json();
 
-        setSupplier(data.requestSuppliers);
+        setSupplier(data.suppliers);
         setLoading(false);
         setRefetch(false);
       } catch (error) {
-        console.log(error);
+        console.log("Fetch error:", error);
       }
     };
 
@@ -59,12 +58,13 @@ const SupplierList = () => {
   }, [refetch]);
 
   const handelChange = async (e, id) => {
+    
     const res = await axios.put(`http://localhost:5000/supply-request/${id}`, {
       status: e.target.value,
     });
 
     if (res.status === 200) {
-      setRefetch(true);
+      setRefetch(true);     
     }
   };
 
