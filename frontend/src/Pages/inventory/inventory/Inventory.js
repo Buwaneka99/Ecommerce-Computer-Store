@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Layout from "../../../Layout/Layout";
+import Layout from "../../../layout/Layout";
 import addProduct from "../../../Assets/add-product.png";
 import listProduct from "../../../Assets/procurement.png";
 import bg from "../../../Assets/TECHNOVA2.png";
