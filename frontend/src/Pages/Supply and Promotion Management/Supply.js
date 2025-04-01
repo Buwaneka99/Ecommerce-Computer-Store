@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Layout from "../../Layout/Layout";
+import Layout from "../../layout/Layout";
 import Supplier from "../../Assets/supplier.png";
 import supply from "../../Assets/approval.png";
 import supplyChain from "../../Assets/supply-chain.png";
