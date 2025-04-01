@@ -16,6 +16,7 @@ import DashboardAddStaff from "./Pages/StaffAndSalaryManagement/staff-management
 import DashboardStaffList from "./Pages/StaffAndSalaryManagement/staff-management/DashboardStaffList";
 import DashboardEditStaff from "./Pages/StaffAndSalaryManagement/staff-management/DashboardEditStaff";
 import DashboardSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/DashboardSalary";
+import CalculateSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/CalculateSalary";
 
 
 
@@ -70,6 +71,7 @@ function App() {
         />
         <Route path="/dashboard/staff/list" element={<DashboardStaffList />} />
         <Route path="/dashboard/salary" element={<DashboardSalary />} />
+        <Route path="/dashboard/salary/add" element={<CalculateSalary />} />
         
 
         {/* Supply Management Routes */}
