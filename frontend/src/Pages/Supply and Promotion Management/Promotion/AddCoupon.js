@@ -17,7 +17,8 @@ const formSchema = yup.object().shape({
   expiryDate: yup
     .date()
     .required("Expire date is required")
-    .typeError("Invalid date"),
+    .typeError("Invalid date")
+    .min(new Date(), "Expiration date must be today or in the future"),
 });
 
 const AddCoupon = () => {
@@ -107,6 +108,7 @@ const AddCoupon = () => {
                   isInvalid={errors.expiryDate}
                   errorMessage={errors.expiryDate?.message}
                   fullWidth
+                  minDate={new Date()}
                 />
               )}
             />
