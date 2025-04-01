@@ -10,6 +10,7 @@ import { BsFillCartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { useGlobalReefetch } from "../Store/Store";
+import Swal from 'sweetalert2';
 
 const HomeNavBar = () => {
 
@@ -24,8 +25,24 @@ const HomeNavBar = () => {
   const searchRef = useRef(null);
 
   const handleLogout = () => {
-    localStorage.removeItem("authUser");
-    window.location.href = "/login";
+    Swal.fire({
+      title: 'Log Out?',
+      text: "Your cart and session will be saved",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#f97316', // orange-500
+      cancelButtonColor: '#6b7280', // gray-500
+      confirmButtonText: 'Log Out',
+      cancelButtonText: 'Cancel',
+      background: '#1f2937', // dark background
+      color: '#fff', // white text
+      iconColor: '#f97316' // orange icon
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("authUser");
+        window.location.href = "/login";
+      }
+    });
   };
 
   useEffect(() => {
@@ -159,15 +176,13 @@ const HomeNavBar = () => {
             </button>
           </Link>
 
-          <div className="flex items-center gap-2 p-1 px-4 text-orange-500 border-orange-600 hover:cursor-pointer border rounded-lg hover:scale-105 duration-300">
+          <Link 
+            to="/user/profile" 
+            className="flex items-center gap-2 p-1 px-4 text-orange-500 border-orange-600 hover:cursor-pointer border rounded-lg hover:scale-105 duration-300"
+          >
             <FaUserCircle size={20} />
-            <Link
-              to="/user/profile"
-              className="flex items-center gap-2 hover:cursor-pointer"
-            >
-              <h1 className="font-semibold">{user ? user?.username : "user"}</h1>
-            </Link>
-          </div>
+            <h1 className="font-semibold">{user ? user?.username : "user ?"}</h1>
+          </Link>
           {user && (
             <button
               onClick={handleLogout}

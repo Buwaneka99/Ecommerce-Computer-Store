@@ -1,5 +1,5 @@
 import { MdDeleteSweep } from "react-icons/md";
-import Layout from "../../layout/Layout";
+import Layout from "../../Layout/Layout";
 import {
   Input,
   Pagination,

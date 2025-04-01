@@ -1,4 +1,4 @@
-import Layout from "../layout/Layout";
+import Layout from "../Layout/Layout";
 import bg from "../Assets/TECHNOVA2.png";
 
 const Dashboard = () => {

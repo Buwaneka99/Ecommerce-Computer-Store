@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Layout from "../../layout/Layout";
+import Layout from "../../Layout/Layout";
 import sales from "../../Assets/sales1.png";
 import bg from "../../Assets/TECHNOVA2.png";
 

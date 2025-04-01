@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Layout from "../../../layout/Layout";
+import Layout from "../../../Layout/Layout";
 import promo from "../../../Assets/promo.png";
 import coupon from "../../../Assets/coupon1.png";
 import couponList from "../../../Assets/coupon.png";
