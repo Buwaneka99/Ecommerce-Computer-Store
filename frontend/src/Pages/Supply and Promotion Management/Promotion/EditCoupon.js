@@ -7,6 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { format } from "date-fns"; 
 
 const formSchema = yup.object().shape({
   couponCode: yup
@@ -37,19 +38,15 @@ const EditCoupon = () => {
   const { id } = useParams();
 
   const onSubmit = async (data) => {
+    console.log("Form Data Before Sending:", data); // Check final form values
+  
     try {
       await axios.put(`http://localhost:5000/coupon/${id}`, data);
-
       toast.success("Updated successfully");
-
       navigate("/dashboard/promotion/coupon/list");
     } catch (error) {
-      if (error?.response) {
-        toast.error(error.response.data.message);
-      } else {
-        console.log(error);
-        toast.error("Something went wrong");
-      }
+      console.log("Error Updating Coupon:", error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -59,15 +56,16 @@ const EditCoupon = () => {
         try {
           const res = await axios.get(`http://localhost:5000/coupon/${id}`);
           const data = res.data;
-
+  
+          // Ensure the date is properly parsed
           const couponDate = new Date(data.coupon.expiryDate);
           setSelectedDate(couponDate);
-
+  
           if (data.coupon) {
             reset({
               couponCode: data.coupon.couponCode,
               discount: data.coupon.discount,
-              expiryDate: couponDate,
+              expiryDate: couponDate,  // Pass Date object directly
             });
           }
           setIsLoaded(false);
@@ -76,10 +74,11 @@ const EditCoupon = () => {
           console.log(error);
         }
       };
-
+  
       fetchCoupon();
     }
   }, [id, reset]);
+  
 
   if (isLoaded) {
     return (
@@ -119,7 +118,7 @@ const EditCoupon = () => {
               size="md"
               variant="filled"
               type="number"
-              label="Discount"
+              label="Discount ( percentage )"
               className="text-sm"
               placeholder="Enter discount"
               {...register("discount")}
@@ -135,11 +134,10 @@ const EditCoupon = () => {
                 <DatePicker
                   size="md"
                   variant="filled"
-                  type="text"
                   label="Expire Date"
                   className="text-sm"
                   placeholder="Select expire date"
-                  selected={selectedDate}
+                  value={selectedDate}  // This is the key change
                   onChange={(date) => {
                     setSelectedDate(date);
                     field.onChange(date);
