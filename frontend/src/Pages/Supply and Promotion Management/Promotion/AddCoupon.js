@@ -1,5 +1,5 @@
 import { Button, DatePicker, Input } from "@nextui-org/react";
-import Layout from "../../../layout/Layout";
+import Layout from "../../../Layout/Layout";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";

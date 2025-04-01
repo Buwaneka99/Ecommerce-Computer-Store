@@ -1,4 +1,4 @@
-import Layout from "../../../layout/Layout";
+import Layout from "../../../Layout/Layout";
 import staff from "../../../Assets/add1.png";
 import listStaff from "../../../Assets/list.png";
 import { Link } from "react-router-dom";

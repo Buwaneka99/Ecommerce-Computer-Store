@@ -1,5 +1,5 @@
 import axios from "axios";
-import Layout from "../../layout/Layout";
+import Layout from "../../Layout/Layout";
 import * as yup from "yup";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";

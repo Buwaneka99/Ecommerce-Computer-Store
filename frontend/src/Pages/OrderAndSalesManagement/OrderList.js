@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../../Layout/Layout";
 import {
   Input,
   Pagination,
