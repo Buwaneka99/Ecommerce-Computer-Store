@@ -57,17 +57,19 @@ const EditCoupon = () => {
           const res = await axios.get(`http://localhost:5000/coupon/${id}`);
           const data = res.data;
   
-          // Ensure the date is properly parsed
-          const couponDate = new Date(data.coupon.expiryDate);
-          setSelectedDate(couponDate);
-  
           if (data.coupon) {
+            const couponDate = new Date(data.coupon.expiryDate);
+  
+            // Format the date to YYYY-MM-DD for input[type="date"]
+            const formattedDate = format(couponDate, "yyyy-MM-dd");
+  
             reset({
               couponCode: data.coupon.couponCode,
               discount: data.coupon.discount,
-              expiryDate: couponDate,  // Pass Date object directly
+              expiryDate: formattedDate,
             });
           }
+
           setIsLoaded(false);
         } catch (error) {
           setIsLoaded(false);
@@ -131,17 +133,13 @@ const EditCoupon = () => {
               control={control}
               defaultValue={selectedDate}
               render={({ field }) => (
-                <DatePicker
+                <Input
                   size="md"
                   variant="filled"
+                  type="date"
                   label="Expire Date"
                   className="text-sm"
-                  placeholder="Select expire date"
-                  value={selectedDate}  // This is the key change
-                  onChange={(date) => {
-                    setSelectedDate(date);
-                    field.onChange(date);
-                  }}
+                  {...register("expiryDate")}
                   isInvalid={errors.expiryDate}
                   errorMessage={errors.expiryDate?.message}
                   fullWidth
