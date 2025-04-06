@@ -15,10 +15,11 @@ import DashboardStaff from "./Pages/StaffAndSalaryManagement/staff-management/Da
 import DashboardAddStaff from "./Pages/StaffAndSalaryManagement/staff-management/DashboardAddStaff";
 import DashboardStaffList from "./Pages/StaffAndSalaryManagement/staff-management/DashboardStaffList";
 import DashboardEditStaff from "./Pages/StaffAndSalaryManagement/staff-management/DashboardEditStaff";
+
 import DashboardSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/DashboardSalary";
 import CalculateSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/CalculateSalary";
-import EditSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/EditSalary";
 import SalaryPayments from "./Pages/StaffAndSalaryManagement/SalaryManagement/SalaryPayments";
+import EditSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/EditSalary";
 
 
 
@@ -68,15 +69,14 @@ function App() {
         {/* Staff and Salary Management */}
         <Route path="/dashboard/staff" element={<DashboardStaff />} />
         <Route path="/dashboard/staff/add" element={<DashboardAddStaff />} />
-        <Route
-          path="/dashboard/staff/edit/:id"
-          element={<DashboardEditStaff />}
-        />
-        <Route path="/dashboard/staff/list" element={<DashboardStaffList />} />
+        <Route path="/dashboard/staff/edit/:id" element={<DashboardEditStaff />} />
+        <Route path="/dashboard/staff/list" element={<DashboardStaffList />} /> 
+
+        {/* Salary management */}
         <Route path="/dashboard/salary" element={<DashboardSalary />} />
         <Route path="/dashboard/salary/add" element={<CalculateSalary />} />
-        <Route path="/dashboard/salary/edit/:id" element={<EditSalary />} />
         <Route path="/dashboard/salary/list" element={<SalaryPayments />} />
+        <Route path="/dashboard/salary/edit/:id" element={<EditSalary />} />
         
 
         {/* Supply Management Routes */}

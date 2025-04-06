@@ -100,8 +100,8 @@ const CalculateSalary = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="flex justify-center items-center h-full">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+        <div className="flex items-center justify-center h-full">
+          <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
         </div>
       </Layout>
     );
@@ -109,13 +109,13 @@ const CalculateSalary = () => {
 
   return (
     <Layout>
-      <div className="flex justify-center p-3 h-full items-center ">
+      <div className="flex items-center justify-center h-full p-3 ">
         <div className="w-[600px] border-2 px-10 py-5 rounded-lg">
-          <h1 className="text-lg ml-2 font-semibold text-gray-800">
+          <h1 className="ml-2 text-lg font-semibold text-gray-800">
             Calculate Salary
           </h1>
           <form
-            className="mt-2 flex flex-col gap-2"
+            className="flex flex-col gap-2 mt-2"
             onSubmit={handleSubmit(onSubmit)}
           >
             <Select
@@ -189,14 +189,14 @@ const CalculateSalary = () => {
               <Button
                 onClick={calculate}
                 size="large"
-                className="bg-red-400 text-white mt-2"
+                className="mt-2 text-white bg-red-400"
                 loading={isSubmitting}
               >
                 Calculate Salary
               </Button>
               <Button
                 size="large"
-                className="bg-black text-white mt-2"
+                className="mt-2 text-white bg-black"
                 type="submit"
               >
                 Pay
