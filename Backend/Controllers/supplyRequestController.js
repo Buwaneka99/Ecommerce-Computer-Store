@@ -23,7 +23,7 @@ export const putRequestSupplier = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    const supplier = await RequestSupplier.findById(id,
+    const supplier = await RequestSupplier.findByIdAndUpdate( id,
       { status },
       { new: true }
     );

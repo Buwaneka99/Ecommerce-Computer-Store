@@ -18,8 +18,6 @@ import supplyRequestRoute from "./Routes/supplyRequestRoute.js";
 import promotionRoute from "./Routes/PromotionRoute.js";
 import productRoute from "./Routes/productRouter.js";
 import orderRoute from "./Routes/orderRouter.js";
-import promotionRoutes from "./Routes/PromotionRoute.js";
-
 
 
 dotenv.config();
