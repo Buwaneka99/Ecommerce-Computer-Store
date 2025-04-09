@@ -1,4 +1,5 @@
 import Order from "../Models/orders.js";
+import User from "../Models/User.js";
 import Stripe from "stripe";
 import dotenv from "dotenv";
 
@@ -42,6 +43,8 @@ export const createOrder = async (req, res) => {
     });
 
     await newOrder.save();
+
+    await checkAndGenerateCoupon(req.user.id);
 
     res.status(201).json(newOrder);
   } catch (error) {
@@ -98,5 +101,27 @@ export const deleteOrder = async (req, res) => {
     res.status(200).json({ message: "Order deleted successfully" });
   } catch (error) {
     res.status(409).json({ message: error.message });
+  }
+};
+
+export const checkAndGenerateCoupon = async (userId) => {
+  const orderCount = await Order.countDocuments({ user: userId });
+
+  if (orderCount >= 10) {
+    const user = await User.findById(userId);
+
+    if (!user.coupon || !user.coupon.isActive) {
+      const generatedCode = `LOYAL-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
+      user.coupon = {
+        code: generatedCode,
+        discount: 20, // 20% discount
+        isActive: true,
+        issuedAt: new Date(),
+      };
+
+      await user.save();
+      console.log("🎉 Coupon generated for user:", user.email);
+    }
   }
 };
