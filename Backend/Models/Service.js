@@ -1,30 +1,46 @@
 import mongoose from "mongoose";
 
-const ServiceSchema = new mongoose.Schema({
-    productID: {
-        type: String,
-    },
+const ServiceSchema = new mongoose.Schema(
+  {
     productName: {
-        type: String,
+      type: String,
+      required: [true, "Product name is required"],
+      trim: true,
+    },
+    productID: {
+      type: String,
+      required: [true, "Product ID is required"],
+      trim: true,
     },
     productPurchasedDate: {
-        type: Date,
+      type: Date,
+      required: [true, "Purchase date is required"],
     },
     productWarrantyPeriod: {
-        type: Number,
+      type: String,
+      required: [true, "Warranty period is required"],
+      trim: true,
     },
     claimDescription: {
-        type: String,
+      type: String,
+      required: [true, "Claim description is required"],
+      trim: true,
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     status: {
-        type: String,
-        default: "Pending",
+      type: String,
+      enum: ["Pending", "Done", "Rejected"],
+      default: "Pending",
     },
-});
+  },
+  {
+    timestamps: true, // adds createdAt and updatedAt automatically
+  }
+);
 
 const Service = mongoose.model("Service", ServiceSchema);
 
