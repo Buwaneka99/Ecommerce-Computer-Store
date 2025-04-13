@@ -43,7 +43,7 @@ const UserService = () => {
     if (window.confirm('Are you sure you want to delete this request?')) {
       try {
         await axios.delete(`http://localhost:5000/services/${id}`);
-        fetchServices(); // refresh list
+        fetchServices();
       } catch (err) {
         alert('Delete failed!');
       }
@@ -59,13 +59,13 @@ const UserService = () => {
     };
     switch (status.toLowerCase()) {
       case 'pending':
-        return { ...base, backgroundColor: '#fff3cd', color: '#856404' };
+        return { ...base, backgroundColor: '#ffe0b2', color: '#e65100' };
       case 'done':
-        return { ...base, backgroundColor: '#d4edda', color: '#155724' };
+        return { ...base, backgroundColor: '#c8e6c9', color: '#2e7d32' };
       case 'rejected':
-        return { ...base, backgroundColor: '#f8d7da', color: '#721c24' };
+        return { ...base, backgroundColor: '#ffcdd2', color: '#b71c1c' };
       default:
-        return { ...base, backgroundColor: '#e2e3e5', color: '#333' };
+        return { ...base, backgroundColor: '#eeeeee', color: '#333' };
     }
   };
 
@@ -75,12 +75,12 @@ const UserService = () => {
     alignItems: 'center',
     marginBottom: '2rem',
     flexWrap: 'wrap',
-    gap: '1rem'
+    gap: '1rem',
   };
 
   const btnStyle = {
-    backgroundColor: '#007bff',
-    color: 'white',
+    backgroundColor: '#ff6f00', // Orange
+    color: '#fff',
     border: 'none',
     borderRadius: '5px',
     padding: '8px 16px',
@@ -89,7 +89,14 @@ const UserService = () => {
   };
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '2rem auto', padding: '0 1rem' }}>
+    <div style={{
+      maxWidth: '1100px',
+      margin: '2rem auto',
+      padding: '2rem',
+      backgroundColor: '#ffffff',
+      borderRadius: '12px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.05)',
+    }}>
       <style>{`
         @keyframes slideFadeIn {
           0% { transform: translateY(10px); opacity: 0; }
@@ -97,23 +104,23 @@ const UserService = () => {
         }
         .hover-lift:hover {
           transform: scale(1.02);
-          transition: transform 0.3s;
+          transition: transform 0.3s ease;
         }
       `}</style>
 
       {!showForm ? (
         <>
           <div style={headerStyle}>
-            <h2 style={{ color: '#333' }}>My Service Requests</h2>
+            <h2 style={{ color: '#000' }}>My Service Requests</h2>
             <button style={btnStyle} onClick={() => setShowForm(true)}>+ New Request</button>
           </div>
 
           {loading ? (
-            <p>Loading your services...</p>
+            <p style={{ color: '#000' }}>Loading your services...</p>
           ) : error ? (
             <p style={{ color: 'red' }}>{error}</p>
           ) : services.length === 0 ? (
-            <p>You haven't submitted any service requests yet.</p>
+            <p style={{ color: '#555' }}>You haven't submitted any service requests yet.</p>
           ) : (
             <div
               style={{
@@ -128,10 +135,9 @@ const UserService = () => {
                   className="hover-lift"
                   style={{
                     animation: 'slideFadeIn 0.5s ease',
-                    backgroundColor: '#fefefe',
-                    border: '1px solid #e0e0e0',
+                    backgroundColor: '#f9f9f9',
+                    border: '1px solid #ddd',
                     borderRadius: '10px',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
                     padding: '1.5rem',
                   }}
                 >
@@ -143,7 +149,7 @@ const UserService = () => {
                       marginBottom: '1rem',
                     }}
                   >
-                    <h3 style={{ margin: 0, fontSize: '20px', color: '#333' }}>
+                    <h3 style={{ margin: 0, fontSize: '20px', color: '#000' }}>
                       {service.productName}
                     </h3>
                     <span style={getStatusColor(service.status)}>{service.status}</span>
@@ -155,7 +161,7 @@ const UserService = () => {
                     <p><strong>Description:</strong> {service.claimDescription}</p>
                   </div>
                   <button
-                    style={{ ...btnStyle, backgroundColor: '#dc3545', marginTop: '10px' }}
+                    style={{ ...btnStyle, backgroundColor: '#d32f2f', marginTop: '10px' }}
                     onClick={() => handleDelete(service._id)}
                   >
                     Delete
@@ -168,10 +174,10 @@ const UserService = () => {
       ) : (
         <>
           <div style={headerStyle}>
-            <h2 style={{ color: '#333' }}>New Service Request</h2>
+            <h2 style={{ color: '#000' }}>New Service Request</h2>
             <button style={btnStyle} onClick={() => setShowForm(false)}>← Back</button>
           </div>
-          <ServiceRequestForm />
+          <ServiceRequestForm setShowServices={setShowForm} />
         </>
       )}
     </div>
