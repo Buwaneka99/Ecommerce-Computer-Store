@@ -46,29 +46,29 @@ const DashboardNavbar = () => {
   return (
 
     <div>
-      <nav className="bg-black p-2 rounded-lg  shadow-lg">
+      <nav className="p-2 bg-black rounded-lg shadow-lg">
         <div className="flex justify-between">
-          <div className="flex gap-2 items-center border-gray-700 text-orange-600">
+          <div className="flex items-center gap-2 text-orange-600 border-gray-700">
             <Input
               isClearable
               radius="full"
               placeholder="Type to search..."
               startContent={<IoSearch />}
             />
-            {/* <button className="bg-blue-600 text-white px-2 py-1 rounded-xl  h-10">
+            {/* <button className="h-10 px-2 py-1 text-white bg-blue-600 rounded-xl">
               Search
             </button> */}
           </div>
           <div className="flex items-center justify-center gap-10">
-            <div className="flex gap-2 items-center text-sm font-semibold text-green-500 hover:cursor-pointer">
-              <a href="/admins/chatlogin"><img src={msg} alt="msg"size={5} className="text-green-500 w-10 h-12" /></a>
+            <div className="flex items-center gap-2 text-sm font-semibold text-green-500 hover:cursor-pointer">
+              <a href="/chatlogin"><img src={msg} alt="msg"size={5} className="w-10 h-12 text-green-500" /></a>
               Message
             </div>
-            <div className="flex gap-2 items-center text-sm font-semibold text-red-500 hover:cursor-pointer">
+            <div className="flex items-center gap-2 text-sm font-semibold text-red-500 hover:cursor-pointer">
               {notifications.length > 0 ? (
                 <Popover>
                   <PopoverTrigger>
-                    <div className="flex gap-2 items-center hover:cursor-pointer">
+                    <div className="flex items-center gap-2 hover:cursor-pointer">
                       <IoIosNotifications size={16} className="text-red-500" />
                       Notification ({notifications.length})
                     </div>
@@ -78,7 +78,7 @@ const DashboardNavbar = () => {
                       {notifications.map((item) => (
                         <div
                           key={item._id}
-                          className="flex gap-2 items-center p-1 px-4 bg-gray-100 rounded-lg"
+                          className="flex items-center gap-2 p-1 px-4 bg-gray-100 rounded-lg"
                         >
                           <div>
                             <h1 className="font-semibold">{item.message}</h1>
@@ -111,7 +111,7 @@ const DashboardNavbar = () => {
                   </PopoverContent>
                 </Popover>
               ) : (
-                <div className="flex gap-2 items-center text-sm font-semibold text-red-500">
+                <div className="flex items-center gap-2 text-sm font-semibold text-red-500">
                   <IoIosNotifications size={16} className="text-red-500" />
                   Notification (0)
                 </div>

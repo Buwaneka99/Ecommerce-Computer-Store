@@ -28,6 +28,8 @@ import DashboardSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/D
 import CalculateSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/CalculateSalary";
 import SalaryPayments from "./Pages/StaffAndSalaryManagement/SalaryManagement/SalaryPayments";
 import EditSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/EditSalary";
+import Chat from "./Pages/StaffAndSalaryManagement/staff-management/Chat";
+import Chatlogin from "./Pages/StaffAndSalaryManagement/staff-management/chatlogin";
 
 // Supply and Promotion
 import Supply from "./Pages/Supply and Promotion Management/Supply";
@@ -85,6 +87,8 @@ function App() {
         <Route path="/dashboard/staff/add" element={<DashboardAddStaff />} />
         <Route path="/dashboard/staff/edit/:id" element={<DashboardEditStaff />} />
         <Route path="/dashboard/staff/list" element={<DashboardStaffList />} />
+        <Route path="/chatlogin" element={<Chatlogin />} />
+        <Route path="/chat" element={<Chat />} />
 
         {/* Salary Management */}
         <Route path="/dashboard/salary" element={<DashboardSalary />} />
