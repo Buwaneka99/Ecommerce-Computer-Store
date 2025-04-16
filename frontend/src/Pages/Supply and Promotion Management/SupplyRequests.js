@@ -13,7 +13,6 @@ import { useEffect, useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import "jspdf-autotable";
 import axios from "axios";
-import { toast } from "react-hot-toast";
 
 const SupplierList = () => {
 

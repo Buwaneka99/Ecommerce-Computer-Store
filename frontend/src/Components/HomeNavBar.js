@@ -181,7 +181,7 @@ const HomeNavBar = () => {
             className="flex items-center gap-2 p-1 px-4 text-orange-500 border-orange-600 hover:cursor-pointer border rounded-lg hover:scale-105 duration-300"
           >
             <FaUserCircle size={20} />
-            <h1 className="font-semibold">{user ? user?.username : "user ?"}</h1>
+            <h1 className="font-semibold">{user ? user?.username : "Login"}</h1>
           </Link>
           {user && (
             <button

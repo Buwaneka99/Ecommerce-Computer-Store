@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+const today = new Date().toISOString().split("T")[0];
+
 const formSchema = yup.object().shape({
   couponCode: yup
     .string()
@@ -15,13 +17,14 @@ const formSchema = yup.object().shape({
     .min(5, "Coupon code must be at least 5 characters long"),
   discount: yup.string().required("Discount is required"),
   expiryDate: yup
-    .date()
-    .required("Expire date is required")
-    .typeError("Invalid date"),
+    .string()
+    .required("Expiration date is required")
+    .test("is-future", "Expiration date must be today or in the future", (value) => {
+    return value >= today;
+  }),
 });
 
 const AddCoupon = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const {
     register,
@@ -30,6 +33,9 @@ const AddCoupon = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(formSchema),
+    defaultValues: {
+      expiryDate: new Date(), 
+    },
   });
 
   const navigate = useNavigate();
@@ -90,23 +96,19 @@ const AddCoupon = () => {
             <Controller
               name="expiryDate"
               control={control}
-              defaultValue={selectedDate}
               render={({ field }) => (
-                <DatePicker
+                <Input
                   size="md"
                   variant="filled"
-                  type="text"
                   label="Expire Date"
                   className="text-sm"
-                  placeholder="Select expire date"
-                  selected={field.value}
-                  onChange={(date) => {
-                    setSelectedDate(date);
-                    field.onChange(date);
-                  }}
+                  type="date"
+                  min={today} // Prevents past dates
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  fullWidth
                   isInvalid={errors.expiryDate}
                   errorMessage={errors.expiryDate?.message}
-                  fullWidth
                 />
               )}
             />

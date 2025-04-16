@@ -35,7 +35,9 @@ const PromotionItems = () => {
 
   const filteredStaff = useMemo(() => {
     return product.filter((item) =>
-      item.productName.toLowerCase().includes(search.toLowerCase())
+      item.productName.toLowerCase().includes(search.toLowerCase()) ||
+      item.category.toLowerCase().includes(search.toLowerCase()) ||
+      item.discount.toString().includes(search.toLowerCase())
     );
   }, [search, product]);
 
