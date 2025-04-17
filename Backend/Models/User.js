@@ -31,7 +31,10 @@ const UserSchema = new mongoose.Schema({
         ],
         default: "user",
     },
-    googleID: {
+    googleId: {
+        type: String,
+    },
+    token: {
         type: String,
     },
     coupon: {

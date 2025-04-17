@@ -104,7 +104,7 @@ const generateCouponCode = () => {
   return 'AUTO-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 };
 
-exports.generateAutoCoupons = async (req, res) => {
+export const generateAutoCoupons = async (req, res) => {
   try {
     const users = await Order.aggregate([
       { $group: { _id: "$user", orderCount: { $sum: 1 } } },
@@ -141,7 +141,7 @@ exports.generateAutoCoupons = async (req, res) => {
 };
 
 // Optional: Fetch coupons for logged-in user
-exports.getUserCoupons = async (req, res) => {
+export const getUserCoupons = async (req, res) => {
   try {
     const coupons = await Coupon.find({ userId: req.user.id });
     res.status(200).json(coupons);

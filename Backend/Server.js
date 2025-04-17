@@ -41,36 +41,23 @@ mongoose.connect(URL)
         process.exit(1);
     });
 
-// Start server
-server.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`🔑 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
-});
-
-// Middleware for session management
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
-  })
-);
+// Add session middleware before your routes
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true in production with HTTPS
+}));
 
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Google Auth Routes
-app.get('/auth/google', 
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
-app.get('/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    res.json({ user: req.user });
-    res.redirect('/');  // Redirect after login
-  }
-);
+// Start server
+server.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`🔑 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
+});
 
 // Check if user is logged in (for API calls)
 app.get('/api/user', (req, res) => {

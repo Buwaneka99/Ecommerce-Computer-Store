@@ -9,6 +9,7 @@ import Dashboard from "./Pages/Dashboard";
 import NotFound from "./Pages/NotFound";
 import Register from "./Pages/Register";
 import UserProfile from "./Pages/UserProfile";
+import OAuthSuccess from "./Pages/OAuthSuccess"; 
 
 // Staff and Salary Management
 import DashboardStaff from "./Pages/StaffAndSalaryManagement/staff-management/DashboardStaff";
@@ -20,10 +21,6 @@ import DashboardSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/D
 import CalculateSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/CalculateSalary";
 import SalaryPayments from "./Pages/StaffAndSalaryManagement/SalaryManagement/SalaryPayments";
 import EditSalary from "./Pages/StaffAndSalaryManagement/SalaryManagement/EditSalary";
-
-
-
-
 
 // Supply Management
 import Supply from "./Pages/Supply and Promotion Management/Supply";
@@ -65,6 +62,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/user/profile" element={<UserProfile />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} /> {/* Add OAuth success route */}
 
         {/* Staff and Salary Management */}
         <Route path="/dashboard/staff" element={<DashboardStaff />} />
