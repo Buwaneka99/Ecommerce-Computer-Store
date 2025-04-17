@@ -151,33 +151,34 @@ export const userRegisterAdmin = async (req, res) => {
   }
 };
 
-export const googleAuth = async (req, res) => {
-  try {
-    const { id_token } = req.body;
+// export const googleAuth = async (req, res) => {
+//   try {
+//     const { id_token } = req.body;
 
-    // Verify the Google ID token
-    const ticket = await client.verifyIdToken({
-      idToken: id_token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
+//     // Verify the Google ID token
+//     const ticket = await client.verifyIdToken({
+//       idToken: id_token,
+//       audience: process.env.GOOGLE_CLIENT_ID,
+//     });
 
-    const payload = ticket.getPayload();
-    const { sub: googleId, email, name: username } = payload;
+//     const payload = ticket.getPayload();
+//     const { sub: googleId, email, name: username } = payload;
 
-    // Check if user exists in DB or create new
-    let user = await User.findOne({ googleId });
+//     // Check if user exists in DB or create new
+//     let user = await User.findOne({ googleId });
 
-    if (!user) {
-      user = await User.create({
-        googleId,
-        username,
-        email,
-        role: 'user', // Default role, adjust as needed
-      });
-    }
+//     if (!user) {
+//       user = await User.create({
+//         googleId,
+//         username,
+//         email,
+//         role: 'user', // Default role, adjust as needed
+//       });
+//     }
 
-    res.status(200).json({ user });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
+//     res.status(200).json({ user });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+

@@ -41,6 +41,16 @@ app.use(cors({
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
+const URL = process.env.MONGO_URI;
+mongoose.connect(URL)
+    .then(() => {
+        console.log("✅ MongoDB database connection established successfully");
+    })
+    .catch((error) => {
+        console.error("❌ Connection error:", error);
+        process.exit(1);
+    });
+
 // ✅ Session
 app.use(
   session({
@@ -55,15 +65,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ Google Auth Routes
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    res.redirect('http://localhost:3000/dashboard');
-  }
-);
+// Start server
+server.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`🔑 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
+});
 
 // ✅ Get current logged-in user
 app.get('/api/user', (req, res) => {
