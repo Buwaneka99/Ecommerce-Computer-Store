@@ -53,9 +53,7 @@ const CheckOutModal = ({ isOpen, onOpenChange, total }) => {
     else if (name.length < 5) newErrors.name = "Name must be more than 5 letters";
     
     if (!email) newErrors.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Email is invalid";
-    }
+    else if (!/^\S+@\S+\.\S+$/.test(email)) newErrors.email = "Email is invalid";
 
     if (!city) newErrors.city = "City is required";
     else if (city.length < 5) newErrors.city = "City must be more than 5 letters";

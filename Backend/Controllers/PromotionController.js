@@ -100,10 +100,8 @@ export const validCoupon = async (req, res) => {
   }
 };
 
-const generateCouponCode = async () => {
-  const array = new Uint32Array(1);
-  window.crypto.getRandomValues(array); // Cryptographically secure
-  return 'AUTO-' + array[0].toString(36).toUpperCase();
+const generateCouponCode = () => {
+  return 'AUTO-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 };
 
 export const generateAutoCoupons = async (req, res) => {
