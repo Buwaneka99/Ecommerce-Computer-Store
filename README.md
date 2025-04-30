@@ -1,8 +1,4 @@
-Here is a refined and beautifully structured version of your `README.md`, written in a clear, professional, and visually organized style while preserving all content and functionality details:
 
----
-
-```markdown
 # 🖥️ Ecommerce Computer Store
 
 A modern, full-stack ecommerce platform for buying computers and accessories, developed using the **MERN stack** (MongoDB, Express.js, React.js, Node.js).  
