@@ -1,4 +1,3 @@
-
 # 🖥️ Ecommerce Computer Store
 
 A modern, full-stack ecommerce platform for buying computers and accessories, developed using the **MERN stack** (MongoDB, Express.js, React.js, Node.js).  
@@ -112,15 +111,3 @@ npm run dev
 | IT22097460     | Inventory Management, Service Requests   |
 | IT22237972     | Sales & Order Management                 |
 | IT22223180     | Staff Management, Live Chat              |
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.  
-See the `LICENSE` file for more details.
-
----
-```
-
-Let me know if you'd like this exported as a downloadable file or converted into a styled web page.
