@@ -105,9 +105,9 @@ npm run dev
 
 ## 👥 Contributors
 
-| Contributor ID | Responsibility                         |
-|----------------|------------------------------------------|
-| IT22109194     | Supply & Promotion Management            |
-| IT22097460     | Inventory Management, Service Requests   |
-| IT22237972     | Sales & Order Management                 |
-| IT22223180     | Staff Management, Live Chat              |
+| Contributors                                         | Responsibility                           |
+|------------------------------------------------------|------------------------------------------|
+| [Buwaneka99](https://github.com/Buwaneka99)          | Supply & Promotion Management            |
+| [DilmiJ](https://github.com/DilmiJ)                  | Inventory Management, Service Requests   |
+| [KalpaVidusha](https://github.com/KalpaVidusha)      | Sales & Order Management                 |
+| [SanilkaSrimal](https://github.com/SanilkaSrimal)    | Staff Management, Live Chat              |
