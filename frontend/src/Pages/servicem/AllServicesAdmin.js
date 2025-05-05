@@ -2,20 +2,25 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { FiSearch, FiDownload } from 'react-icons/fi';
 
 pdfMake.vfs = pdfFonts.vfs;
 
 const AllServicesAdmin = () => {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get('http://localhost:5000/services');
-        setServices(response.data.data || response.data || []);
+        const servicesData = response.data.data || response.data || [];
+        setServices(servicesData);
+        setFilteredServices(servicesData);
       } catch (error) {
         setError('Failed to fetch services.');
       } finally {
@@ -24,6 +29,27 @@ const AllServicesAdmin = () => {
     };
     fetchServices();
   }, []);
+
+  useEffect(() => {
+    let results = services;
+    
+    // Apply status filter first
+    if (selectedStatus !== 'All') {
+      results = results.filter(service => service.status === selectedStatus);
+    }
+    
+    // Then apply search filter
+    if (searchTerm) {
+      results = results.filter(service =>
+        service.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (service?.user?.email && service.user.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        service.productID.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        service.status.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    setFilteredServices(results);
+  }, [searchTerm, selectedStatus, services]);
 
   const handleStatusChange = async (id, status) => {
     try {
@@ -91,7 +117,7 @@ const AllServicesAdmin = () => {
   
     const tableBody = [
       ['Product', 'User', 'Product ID', 'Purchase Date', 'Warranty', 'Status'],
-      ...services.map(s => [
+      ...filteredServices.map(s => [
         s.productName,
         s?.user?.email || 'N/A',
         s.productID,
@@ -135,10 +161,6 @@ const AllServicesAdmin = () => {
     pdfMake.createPdf(docDefinition).download('Service_Report.pdf');
   };
 
-  const filteredServices = selectedStatus === 'All'
-    ? services
-    : services.filter(service => service.status === selectedStatus);
-
   return (
     <div style={{
       minHeight: '100vh',
@@ -177,32 +199,58 @@ const AllServicesAdmin = () => {
           flexWrap: 'wrap',
           gap: '1rem'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <label style={{
-              fontWeight: '500',
-              color: '#ddd'
-            }}>
-              Filter by Status:
-            </label>
-            <select
-              value={selectedStatus}
-              onChange={e => setSelectedStatus(e.target.value)}
-              style={{
-                padding: '8px 12px',
-                borderRadius: '6px',
-                border: '1px solid #444',
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ position: 'relative' }}>
+              <FiSearch style={{
+                position: 'absolute',
+                left: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#aaa'
+              }} />
+              <input
+                type="text"
+                placeholder="Search services..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  padding: '8px 12px 8px 32px',
+                  borderRadius: '6px',
+                  border: '1px solid #444',
+                  fontWeight: '500',
+                  backgroundColor: '#333',
+                  color: '#fff',
+                  minWidth: '250px'
+                }}
+              />
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <label style={{
                 fontWeight: '500',
-                backgroundColor: '#333',
-                color: '#fff',
-                cursor: 'pointer',
-                minWidth: '120px'
-              }}
-            >
-              <option value="All">All</option>
-              <option value="Pending">Pending</option>
-              <option value="Done">Done</option>
-              <option value="Rejected">Rejected</option>
-            </select>
+                color: '#ddd'
+              }}>
+                Filter by Status:
+              </label>
+              <select
+                value={selectedStatus}
+                onChange={e => setSelectedStatus(e.target.value)}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid #444',
+                  fontWeight: '500',
+                  backgroundColor: '#333',
+                  color: '#fff',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="All">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Done">Done</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
           </div>
 
           <button
@@ -225,10 +273,7 @@ const AllServicesAdmin = () => {
               }
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-              <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-            </svg>
+            <FiDownload />
             Export PDF
           </button>
         </div>
@@ -356,7 +401,9 @@ const AllServicesAdmin = () => {
             padding: '2rem',
             color: '#aaa'
           }}>
-            No service requests found
+            {searchTerm || selectedStatus !== 'All' 
+              ? 'No matching services found' 
+              : 'No service requests found'}
           </div>
         )}
       </div>
