@@ -69,8 +69,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/user/profile" element={<UserProfile />} />
-        <Route path="/oauth-success" element={<OAuthSuccess />} /> {/* Add OAuth success route */}
-
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
+        
         {/* User Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
 
