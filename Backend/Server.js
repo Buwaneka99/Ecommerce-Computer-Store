@@ -99,4 +99,58 @@ server.listen(PORT, () => {
   console.log(`🔐 Google Auth callback: /auth/google/callback`);
 });
 
+// Object to track users in each room
+const usersInRooms = {};
+
+// Function to get users in a room
+const getUsersInRoom = (room) => {
+  return usersInRooms[room] || [];
+};
+
+io.on("connection", (socket) => {
+  console.log(`⚡ User connected: ${socket.id}`);
+
+  // Handle joining a room
+  socket.on("joinRoom", ({ username, room }) => {
+    // Add user to the room's list of users
+    if (!usersInRooms[room]) {
+      usersInRooms[room] = [];
+    }
+
+    if (!usersInRooms[room].includes(username)) {
+      usersInRooms[room].push(username);
+    }
+
+    // Join the room
+    socket.join(room);
+    console.log(`${username} joined room ${room}`);
+
+    // Emit the updated list of users in the room to everyone in the room
+    io.to(room).emit("roomData", { users: getUsersInRoom(room) });
+
+    // Inform the room that a user has joined
+    io.to(room).emit("message", { user: "Admin", text: `${username} has joined the chat` });
+  });
+
+  // Handle sending messages
+  socket.on("sendMessage", (message, room) => {
+    console.log(`📩 Received message:`, message, "in", room);
+    io.to(room).emit("message", message);
+  });
+
+  // Handle user disconnecting
+  socket.on("disconnect", () => {
+    // Find and remove the user from the room they were in
+    for (let room in usersInRooms) {
+      const index = usersInRooms[room].indexOf(socket.id);
+      if (index !== -1) {
+        // Remove user from the room when they disconnect
+        const username = usersInRooms[room].splice(index, 1)[0];
+        io.to(room).emit("roomData", { users: getUsersInRoom(room) });
+        io.to(room).emit("message", { user: "Admin", text: `${username} has left the chat` });
+        console.log(`${username} has disconnected from room: ${room}`);
+      }
+    }
+  });
+});
 
