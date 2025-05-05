@@ -10,6 +10,7 @@ import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard";
 import NotFound from "./Pages/NotFound";
 import UserProfile from "./Pages/UserProfile";
+import OAuthSuccess from "./Pages/OAuthSuccess"; 
 
 // Service (User & Admin)
 //import UserService from "./Pages/servicem/Userservice"; // ✅ FIXED: matched filename
@@ -68,7 +69,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/user/profile" element={<UserProfile />} />
-
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
+        
         {/* User Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
 

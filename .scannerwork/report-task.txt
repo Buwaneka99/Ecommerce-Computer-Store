@@ -1,0 +1,6 @@
+projectKey=EcommerceComputerStore
+serverUrl=http://localhost:9000
+serverVersion=25.4.0.105899
+dashboardUrl=http://localhost:9000/dashboard?id=EcommerceComputerStore
+ceTaskId=4a57cf8c-f60a-4418-8f76-618e1f8400eb
+ceTaskUrl=http://localhost:9000/api/ce/task?id=4a57cf8c-f60a-4418-8f76-618e1f8400eb

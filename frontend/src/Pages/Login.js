@@ -9,8 +9,6 @@ import { EyeSlashFilledIcon } from "../Icon/EyeSlashFilledIcon";
 import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import google from "../Assets/google.png";
 
 const formSchema = yup.object().shape({
   email: yup.string().email().required(),
@@ -138,12 +136,17 @@ const Login = () => {
         </Button>
 
         <Button
-            onClick={handleGoogleLogin}
-            size="md"
-            className="w-full bg-blue-700 text-white font-semibold rounded-lg py-2 hover:bg-blue-800 transition-all shadow-lg shadow-red-500/30 flex items-center justify-center gap-2"
-          >
-            <img src={google} alt="Google" className="w-5 h-5" />
-            Login with Google
+          onClick={handleGoogleLogin}
+          size="md"
+          className="w-full bg-white text-gray-700 font-semibold rounded-lg py-2 hover:bg-gray-50 transition-all shadow-lg border border-gray-300 flex items-center justify-center gap-2"
+          type="button"
+        >
+          <img 
+            src="https://developers.google.com/identity/images/g-logo.png" 
+            alt="Google" 
+            className="w-5 h-5 mr-2" 
+          />
+          Sign in with Google
         </Button>
   
         <div className="flex items-center justify-center gap-1 text-sm text-gray-300">

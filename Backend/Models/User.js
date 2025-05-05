@@ -31,8 +31,17 @@ const UserSchema = new mongoose.Schema({
         ],
         default: "user",
     },
-    googleID: {
+    googleId: {
         type: String,
+    },
+    token: {
+        type: String,
+    },
+    coupon: {
+        code: { type: String },
+        discount: { type: Number },
+        isActive: { type: Boolean, default: false },
+        issuedAt: { type: Date },
     },
 });
 
