@@ -11,6 +11,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FiUpload, FiX, FiSave } from "react-icons/fi";
 import { motion } from "framer-motion";
 
+// Inventory-style background image
+const bgImgUrl =
+  "https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2232&auto=format&fit=crop";
+
 const formSchema = yup.object().shape({
   productName: yup.string().required("Product name is required"),
   category: yup.string().required("Category is required"),
@@ -122,11 +126,40 @@ const EditProduct = () => {
     setImageBase64(null);
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+      },
+    },
+  };
+
   if (loading) {
     return (
       <Layout>
-        <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div
+          className="min-h-screen bg-cover bg-fixed bg-center relative flex justify-center items-center"
+          style={{
+            backgroundImage: `url(${bgImgUrl})`,
+          }}
+        >
+          <div className="absolute inset-0 bg-gray-900 bg-opacity-60"></div>
+          <div className="relative z-10 flex justify-center items-center h-full">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+          </div>
         </div>
       </Layout>
     );
@@ -134,220 +167,212 @@ const EditProduct = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+      <div
+        className="min-h-screen bg-cover bg-fixed bg-center relative flex justify-center items-center py-8 px-4 sm:px-6 lg:px-8"
+        style={{
+          backgroundImage: `url(${bgImgUrl})`,
+        }}
+      >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gray-900 bg-opacity-60"></div>
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-5xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="relative z-10 max-w-5xl w-full bg-gray-800/90 rounded-2xl shadow-lg p-6 border border-gray-600 hover:shadow-cyan-500/30 transition-all duration-500"
         >
-          <div className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
-            <div className="p-6 border-b border-gray-700">
-              <h1 className="text-2xl font-bold text-white">Edit Product</h1>
+          <motion.div variants={itemVariants}>
+            <div className="border-b border-gray-700 pb-4 mb-6">
+              <h1 className="text-2xl font-bold text-cyan-400 animate-pulse">
+                Edit Product
+              </h1>
               <p className="text-gray-300 mt-1">
                 Update the details of your product
               </p>
             </div>
+          </motion.div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Image Upload Section */}
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">
-                      Product Image
-                    </label>
-                    {!imageBase64 ? (
-                      <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-700 hover:bg-gray-700/80 transition-colors">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <FiUpload className="w-10 h-10 mb-3 text-gray-300" />
-                          <p className="mb-2 text-sm text-gray-300">
-                            <span className="font-semibold">Click to upload</span>{" "}
-                            or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            PNG, JPG (MAX. 2MB)
-                          </p>
-                        </div>
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                        />
-                      </label>
-                    ) : (
-                      <div className="relative">
-                        <img
-                          src={imageBase64}
-                          alt="Product preview"
-                          className="w-full h-64 object-contain rounded-lg border border-gray-600 bg-gray-700"
-                        />
-                        <button
-                          type="button"
-                          onClick={removeImage}
-                          className="absolute top-2 right-2 p-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
-                          aria-label="Remove image"
-                        >
-                          <FiX className="text-white" />
-                        </button>
-                      </div>
-                    )}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Image Upload Section */}
+              <motion.div variants={itemVariants} className="space-y-4">
+                <label className="block text-sm font-medium text-gray-300">
+                  Product Image
+                </label>
+                {!imageBase64 ? (
+                  <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-700/50 hover:bg-gray-700/70 transition-all duration-300">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <FiUpload className="w-10 h-10 mb-3 text-gray-400" />
+                      <p className="mb-2 text-sm text-gray-400">
+                        <span className="font-semibold">Click to upload</span> or
+                        drag and drop
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        PNG, JPG (MAX. 2MB)
+                      </p>
+                    </div>
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                    />
+                  </label>
+                ) : (
+                  <div className="relative">
+                    <motion.img
+                      src={imageBase64}
+                      alt="Product preview"
+                      className="w-full h-64 object-contain rounded-lg border border-gray-600 bg-gray-700"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                    <motion.button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute top-2 right-2 p-2 bg-red-600 rounded-full hover:bg-red-700 transition-all duration-300"
+                      aria-label="Remove image"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <FiX className="text-white" />
+                    </motion.button>
                   </div>
-                </div>
+                )}
+              </motion.div>
 
-                {/* Form Fields Section */}
-                <div className="space-y-4">
+              {/* Form Fields Section */}
+              <motion.div variants={itemVariants} className="space-y-4">
+                <Input
+                  label="Product Name"
+                  type="text"
+                  className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                  {...register("productName")}
+                  isInvalid={!!errors.productName}
+                  errorMessage={errors.productName?.message}
+                />
+                <Select
+                  label="Product Category"
+                  className="bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+                  {...register("category")}
+                  isInvalid={!!errors.category}
+                  errorMessage={errors.category?.message}
+                >
+                  {ProductCategory.map((item) => (
+                    <SelectItem
+                      key={item.value}
+                      value={item.value}
+                      className="text-white bg-gray-800 hover:bg-gray-700"
+                    >
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <div className="grid grid-cols-2 gap-4">
                   <Input
-                    label="Product Name"
-                    variant="bordered"
-                    size="sm"
-                    classNames={{
-                      label: "text-gray-300 font-medium",
-                      input: "text-white",
-                      inputWrapper: "border-gray-600 bg-gray-700",
-                    }}
-                    {...register("productName")}
-                    isInvalid={!!errors.productName}
-                    errorMessage={errors.productName?.message}
+                    label="Quantity"
+                    type="number"
+                    className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                    {...register("quantity")}
+                    isInvalid={!!errors.quantity}
+                    errorMessage={errors.quantity?.message}
                   />
-
-                  <Select
-                    label="Product Category"
-                    variant="bordered"
-                    size="sm"
-                    classNames={{
-                      label: "text-gray-300 font-medium",
-                      trigger: "border-gray-600 bg-gray-700",
-                      value: "text-white",
-                    }}
-                    {...register("category")}
-                    isInvalid={!!errors.category}
-                    errorMessage={errors.category?.message}
-                  >
-                    {ProductCategory.map((item) => (
-                      <SelectItem
-                        key={item.value}
-                        value={item.value}
-                        className="text-white bg-gray-800 hover:bg-gray-700"
-                      >
-                        {item.value}
-                      </SelectItem>
-                    ))}
-                  </Select>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      label="Quantity"
-                      type="number"
-                      variant="bordered"
-                      size="sm"
-                      classNames={{
-                        label: "text-gray-300 font-medium",
-                        input: "text-white",
-                        inputWrapper: "border-gray-600 bg-gray-700",
-                      }}
-                      {...register("quantity")}
-                      isInvalid={!!errors.quantity}
-                      errorMessage={errors.quantity?.message}
-                    />
-                    <Input
-                      label="Price ($)"
-                      type="number"
-                      variant="bordered"
-                      size="sm"
-                      classNames={{
-                        label: "text-gray-300 font-medium",
-                        input: "text-white",
-                        inputWrapper: "border-gray-600 bg-gray-700",
-                      }}
-                      {...register("price")}
-                      isInvalid={!!errors.price}
-                      errorMessage={errors.price?.message}
-                    />
-                  </div>
-
                   <Input
-                    label="Processor"
-                    variant="bordered"
-                    size="sm"
-                    classNames={{
-                      label: "text-gray-300 font-medium",
-                      input: "text-white",
-                      inputWrapper: "border-gray-600 bg-gray-700",
-                    }}
-                    {...register("processor")}
-                    isInvalid={!!errors.processor}
-                    errorMessage={errors.processor?.message}
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      label="Operating System"
-                      variant="bordered"
-                      size="sm"
-                      classNames={{
-                        label: "text-gray-300 font-medium",
-                        input: "text-white",
-                        inputWrapper: "border-gray-600 bg-gray-700",
-                      }}
-                      {...register("os")}
-                      isInvalid={!!errors.os}
-                      errorMessage={errors.os?.message}
-                    />
-                    <Input
-                      label="Graphics"
-                      variant="bordered"
-                      size="sm"
-                      classNames={{
-                        label: "text-gray-300 font-medium",
-                        input: "text-white",
-                        inputWrapper: "border-gray-600 bg-gray-700",
-                      }}
-                      {...register("graphics")}
-                      isInvalid={!!errors.graphics}
-                      errorMessage={errors.graphics?.message}
-                    />
-                  </div>
-
-                  <Input
-                    label="Storage"
-                    variant="bordered"
-                    size="sm"
-                    classNames={{
-                      label: "text-gray-300 font-medium",
-                      input: "text-white",
-                      inputWrapper: "border-gray-600 bg-gray-700",
-                    }}
-                    {...register("storage")}
-                    isInvalid={!!errors.storage}
-                    errorMessage={errors.storage?.message}
+                    label="Price ($)"
+                    type="number"
+                    className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                    {...register("price")}
+                    isInvalid={!!errors.price}
+                    errorMessage={errors.price?.message}
                   />
                 </div>
-              </div>
+                <Input
+                  label="Processor"
+                  type="text"
+                  className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                  {...register("processor")}
+                  isInvalid={!!errors.processor}
+                  errorMessage={errors.processor?.message}
+                />
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    label="Operating System"
+                    type="text"
+                    className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                    {...register("os")}
+                    isInvalid={!!errors.os}
+                    errorMessage={errors.os?.message}
+                  />
+                  <Input
+                    label="Graphics"
+                    type="text"
+                    className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                    {...register("graphics")}
+                    isInvalid={!!errors.graphics}
+                    errorMessage={errors.graphics?.message}
+                  />
+                </div>
+                <Input
+                  label="Storage"
+                  type="text"
+                  className="bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-cyan-500"
+                  {...register("storage")}
+                  isInvalid={!!errors.storage}
+                  errorMessage={errors.storage?.message}
+                />
+              </motion.div>
+            </div>
 
-              <div className="flex justify-end mt-6 space-x-3">
+            <motion.div
+              variants={itemVariants}
+              className="flex justify-end mt-6 space-x-3"
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   type="button"
                   onClick={() => navigate("/dashboard/products/list")}
-                  className="bg-gray-600 hover:bg-gray-500 text-white font-medium"
+                  className="bg-gray-600 hover:bg-gray-500 text-white font-medium transition-all duration-300"
                   startContent={<FiX size={18} />}
                 >
                   Cancel
                 </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-500 text-white font-medium"
+                  className={`${
+                    isSubmitting
+                      ? "bg-gray-500 cursor-not-allowed"
+                      : "bg-cyan-600 hover:bg-cyan-700 hover:shadow-cyan-500/50"
+                  } text-white font-medium transition-all duration-300 shadow-lg`}
                   isLoading={isSubmitting}
                   startContent={!isSubmitting && <FiSave size={18} />}
                 >
                   {isSubmitting ? "Saving..." : "Save Changes"}
                 </Button>
-              </div>
-            </form>
-          </div>
+              </motion.div>
+            </motion.div>
+          </form>
         </motion.div>
       </div>
+
+      {/* Inline CSS for animations */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+      `}</style>
     </Layout>
   );
 };
