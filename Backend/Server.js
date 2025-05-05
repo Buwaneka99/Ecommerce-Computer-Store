@@ -89,3 +89,4 @@ server.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
   console.log(`🔐 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
 });
+
