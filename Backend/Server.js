@@ -9,7 +9,6 @@ import session from "express-session";
 // Google Auth
 import passport from "./Config/passport.js";
 
-
 // Import Routes
 import userRoute from "./Routes/UserRoute.js";
 import supplyRoute from "./Routes/supplyRoute.js";
@@ -17,14 +16,13 @@ import supplyRequestRoute from "./Routes/supplyRequestRoute.js";
 import promotionRoute from "./Routes/PromotionRoute.js";
 import productRoute from "./Routes/productRouter.js";
 import orderRoute from "./Routes/orderRouter.js";
-import serviceRouter from "./Routes/serviceRouter.js"; 
+import serviceRouter from "./Routes/serviceRouter.js";
 
 dotenv.config();
 
 const app = express();
 const server = createServer(app);
 const PORT = process.env.PORT || 5000;
-
 
 // ✅ Middleware
 app.use(cors({
@@ -34,18 +32,15 @@ app.use(cors({
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-
-// ✅ Connect to MongoDB
-const URL = process.env.MONGO_URI;
-mongoose.connect(URL)
-    .then(() => {
-        console.log("✅ MongoDB database connection established successfully");
-    })
-    .catch((error) => {
-        console.error("❌ Connection error:", error);
-        process.exit(1);
-    });
-
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB database connection established successfully");
+  })
+  .catch((error) => {
+    console.error("❌ Connection error:", error);
+    process.exit(1);
+  });
 
 // ✅ Session
 app.use(
@@ -57,25 +52,15 @@ app.use(
   })
 );
 
-
 // ✅ Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-// Start server
-server.listen(PORT, () => {
-  console.log(`🚀 Backend is running on port ${PORT}`);
-  console.log(`🔐 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
-});
-
 
 // ✅ Get current logged-in user
 app.get('/api/user', (req, res) => {
   if (req.user) res.json(req.user);
   else res.status(401).json({ error: "Not logged in" });
 });
-
 
 // ✅ Logout
 app.get('/auth/logout', (req, res) => {
@@ -85,8 +70,7 @@ app.get('/auth/logout', (req, res) => {
   });
 });
 
-
-// ✅ Health Check /message route (for frontend testing)
+// ✅ Health Check Route
 app.get("/message", (req, res) => {
   res.status(200).json({ message: "Message endpoint is working!" });
 });
@@ -98,7 +82,10 @@ app.use("/supply-request", supplyRequestRoute);
 app.use("/coupon", promotionRoute);
 app.use("/products", productRoute);
 app.use("/orders", orderRoute);
-app.use("/services", serviceRouter); 
+app.use("/services", serviceRouter);
 
-
-
+// ✅ Start Server
+server.listen(PORT, () => {
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`🔐 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
+});
