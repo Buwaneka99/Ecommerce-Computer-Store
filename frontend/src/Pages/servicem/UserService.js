@@ -52,20 +52,21 @@ const UserService = () => {
 
   const getStatusColor = (status) => {
     const base = {
-      padding: '4px 10px',
-      borderRadius: '5px',
+      padding: '6px 14px',
+      borderRadius: '20px',
       fontWeight: 'bold',
-      fontSize: '0.85rem',
+      fontSize: '13px',
+      textTransform: 'capitalize'
     };
     switch (status.toLowerCase()) {
       case 'pending':
-        return { ...base, backgroundColor: '#ffe0b2', color: '#e65100' };
+        return { ...base, backgroundColor: '#fff3cd', color: '#856404' };
       case 'done':
-        return { ...base, backgroundColor: '#c8e6c9', color: '#2e7d32' };
+        return { ...base, backgroundColor: '#bbdefb', color: '#0d47a1' };
       case 'rejected':
         return { ...base, backgroundColor: '#ffcdd2', color: '#b71c1c' };
       default:
-        return { ...base, backgroundColor: '#eeeeee', color: '#333' };
+        return { ...base, backgroundColor: '#eceff1', color: '#333' };
     }
   };
 
@@ -79,66 +80,70 @@ const UserService = () => {
   };
 
   const btnStyle = {
-    backgroundColor: '#ff6f00', // Orange
+    backgroundColor: '#1565c0', // Blue
     color: '#fff',
     border: 'none',
     borderRadius: '5px',
-    padding: '8px 16px',
-    fontSize: '0.95rem',
+    padding: '10px 20px',
+    fontSize: '16px',
+    fontWeight: '600',
     cursor: 'pointer',
+    transition: '0.3s',
   };
 
   return (
     <div style={{
-      maxWidth: '1100px',
+      maxWidth: '1200px',
       margin: '2rem auto',
       padding: '2rem',
       backgroundColor: '#ffffff',
-      borderRadius: '12px',
-      boxShadow: '0 4px 8px rgba(0,0,0,0.05)',
+      borderRadius: '14px',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
     }}>
       <style>{`
-        @keyframes slideFadeIn {
-          0% { transform: translateY(10px); opacity: 0; }
+        @keyframes fadeIn {
+          0% { transform: translateY(15px); opacity: 0; }
           100% { transform: translateY(0); opacity: 1; }
         }
-        .hover-lift:hover {
-          transform: scale(1.02);
-          transition: transform 0.3s ease;
+        .hover-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+          transition: all 0.3s ease;
         }
       `}</style>
 
       {!showForm ? (
         <>
           <div style={headerStyle}>
-            <h2 style={{ color: '#000' }}>My Service Requests</h2>
+            <h2 style={{ color: '#0d47a1', fontSize: '28px', fontWeight: '700' }}>My Service Requests</h2>
             <button style={btnStyle} onClick={() => setShowForm(true)}>+ New Request</button>
           </div>
 
           {loading ? (
-            <p style={{ color: '#000' }}>Loading your services...</p>
+            <p style={{ color: '#000', fontSize: '18px', textAlign: 'center' }}>Loading your services...</p>
           ) : error ? (
-            <p style={{ color: 'red' }}>{error}</p>
+            <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
           ) : services.length === 0 ? (
-            <p style={{ color: '#555' }}>You haven't submitted any service requests yet.</p>
+            <p style={{ color: '#555', fontSize: '17px', textAlign: 'center' }}>You haven't submitted any service requests yet.</p>
           ) : (
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '1.5rem',
+                gap: '2rem',
               }}
             >
               {services.map((service) => (
                 <div
                   key={service._id}
-                  className="hover-lift"
+                  className="hover-card"
                   style={{
-                    animation: 'slideFadeIn 0.5s ease',
-                    backgroundColor: '#f9f9f9',
+                    animation: 'fadeIn 0.6s ease',
+                    backgroundColor: '#fdfdfd',
                     border: '1px solid #ddd',
-                    borderRadius: '10px',
-                    padding: '1.5rem',
+                    borderRadius: '12px',
+                    padding: '1.8rem',
+                    transition: 'all 0.3s ease',
                   }}
                 >
                   <div
@@ -146,22 +151,27 @@ const UserService = () => {
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
-                      marginBottom: '1rem',
+                      marginBottom: '1.2rem',
                     }}
                   >
-                    <h3 style={{ margin: 0, fontSize: '20px', color: '#000' }}>
+                    <h3 style={{ margin: 0, fontSize: '20px', color: '#000', fontWeight: '600' }}>
                       {service.productName}
                     </h3>
                     <span style={getStatusColor(service.status)}>{service.status}</span>
                   </div>
-                  <div style={{ fontSize: '14px', color: '#333' }}>
+                  <div style={{ fontSize: '15px', color: '#555' }}>
                     <p><strong>Product ID:</strong> {service.productID}</p>
                     <p><strong>Purchase Date:</strong> {new Date(service.productPurchasedDate).toLocaleDateString()}</p>
                     <p><strong>Warranty:</strong> {service.productWarrantyPeriod} months</p>
                     <p><strong>Description:</strong> {service.claimDescription}</p>
                   </div>
                   <button
-                    style={{ ...btnStyle, backgroundColor: '#d32f2f', marginTop: '10px' }}
+                    style={{
+                      ...btnStyle,
+                      backgroundColor: '#c62828',
+                      marginTop: '1rem',
+                      width: '100%',
+                    }}
                     onClick={() => handleDelete(service._id)}
                   >
                     Delete
@@ -174,7 +184,7 @@ const UserService = () => {
       ) : (
         <>
           <div style={headerStyle}>
-            <h2 style={{ color: '#000' }}>New Service Request</h2>
+            <h2 style={{ color: '#0d47a1', fontSize: '28px', fontWeight: '700' }}>New Service Request</h2>
             <button style={btnStyle} onClick={() => setShowForm(false)}>← Back</button>
           </div>
           <ServiceRequestForm setShowServices={setShowForm} />
