@@ -42,9 +42,7 @@ export const createOrder = async (req, res) => {
       user,
     });
 
-    await newOrder.save();
-
-   
+    
 
     res.status(201).json(newOrder);
   } catch (error) {

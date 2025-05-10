@@ -8,20 +8,22 @@ import { ProductCategory } from "../../../Data/productCatogory";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { FiUpload, FiX, FiSave } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const formSchema = yup.object().shape({
   productName: yup.string().required("Product name is required"),
-  category: yup.string().required("category is required"),
+  category: yup.string().required("Category is required"),
   quantity: yup
     .number()
     .typeError("Quantity must be a number")
     .required("Quantity is required")
-    .min(0, "Quantity cannot be a negative number"),
+    .min(0, "Quantity cannot be negative"),
   price: yup
     .number()
     .typeError("Price must be a number")
     .required("Price is required")
-    .min(0, "Price cannot be a negative number"),
+    .min(0, "Price cannot be negative"),
   processor: yup.string().required("Processor is required"),
   os: yup.string().required("OS is required"),
   graphics: yup.string().required("Graphics is required"),
@@ -32,9 +34,9 @@ const EditProduct = () => {
   const [imageBase64, setImageBase64] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
-  console.log(product);
+  const { id } = useParams();
+
   const {
     register,
     handleSubmit,
@@ -43,8 +45,6 @@ const EditProduct = () => {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
-
-  const { id } = useParams();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -63,22 +63,23 @@ const EditProduct = () => {
             graphics: data.graphics,
             storage: data.storage,
           });
-
           setImageBase64(data.image);
         }
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         setLoading(false);
+        toast.error("Failed to load product");
       }
     };
 
     fetchProduct();
-  }, [id]);
+  }, [id, reset]);
 
   const onSubmit = async (data) => {
     if (!imageBase64) {
-      return toast.error("Please upload an image");
+      toast.error("Please upload an image");
+      return;
     }
 
     const productData = {
@@ -86,42 +87,46 @@ const EditProduct = () => {
       category: data.category,
       quantity: data.quantity,
       price: data.price,
-      description: data.description,
       processor: data.processor,
       os: data.os,
       graphics: data.graphics,
       storage: data.storage,
       image: imageBase64,
-      promotion: data.promotion,
     };
 
     try {
       await axios.put(`http://localhost:5000/products/${id}`, productData);
-
-      toast.success("Product update successfully");
+      toast.success("Product updated successfully");
       navigate("/dashboard/products/list");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Update failed");
     }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("File size should be less than 2MB");
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (e) => {
-        const base64String = e.target.result;
-        setImageBase64(base64String);
+        setImageBase64(e.target.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const removeImage = () => {
+    setImageBase64(null);
+  };
+
   if (loading) {
     return (
       <Layout>
-        <div className="flex justify-center items-center h-full">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       </Layout>
     );
@@ -129,191 +134,222 @@ const EditProduct = () => {
 
   return (
     <Layout>
-      <div className="flex justify-center p-3 h-full items-center">
-        <div className="w-[900px] border-2 px-10 py-5 rounded-lg">
-          <h1 className="text-lg ml-1 font-semibold text-gray-800">
-            Edit Product
-          </h1>
-          <form
-            className="mt-4 flex gap-2 flex-col"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <div className="flex gap-5">
-              <div className="flex-1">
-                <label className="block text-sm  leading-6 text-gray-900">
-                  Image Upload
-                </label>
-                <div className="flex items-center justify-center w-full mt-2">
-                  {!imageBase64 && (
-                    <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                          className="w-8 h-8 mb-4 text-gray-500"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 20 16"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                          />
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500 ">
-                          <span className="font-semibold">Click to upload</span>{" "}
-                          or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-500 ">
-                          SVG, PNG, JPG or GIF (MAX. 800x400px)
-                        </p>
-                      </div>
-                      <input
-                        id="dropzone-file"
-                        type="file"
-                        className="hidden"
-                        onChange={handleFileChange}
-                      />
-                    </label>
-                  )}
+      <div className="min-h-screen bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-5xl mx-auto"
+        >
+          <div className="bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
+            <div className="p-6 border-b border-gray-700">
+              <h1 className="text-2xl font-bold text-white">Edit Product</h1>
+              <p className="text-gray-300 mt-1">
+                Update the details of your product
+              </p>
+            </div>
 
-                  {imageBase64 && (
-                    <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                      <img
-                        className=" w-48 h-48"
-                        src={imageBase64}
-                        alt="Selected File"
-                      />
-                      <input
-                        id="dropzone-file"
-                        type="file"
-                        className="hidden"
-                        onChange={handleFileChange}
-                      />
+            <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Image Upload Section */}
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-300">
+                      Product Image
                     </label>
-                  )}
+                    {!imageBase64 ? (
+                      <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-700 hover:bg-gray-700/80 transition-colors">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <FiUpload className="w-10 h-10 mb-3 text-gray-300" />
+                          <p className="mb-2 text-sm text-gray-300">
+                            <span className="font-semibold">Click to upload</span>{" "}
+                            or drag and drop
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            PNG, JPG (MAX. 2MB)
+                          </p>
+                        </div>
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    ) : (
+                      <div className="relative">
+                        <img
+                          src={imageBase64}
+                          alt="Product preview"
+                          className="w-full h-64 object-contain rounded-lg border border-gray-600 bg-gray-700"
+                        />
+                        <button
+                          type="button"
+                          onClick={removeImage}
+                          className="absolute top-2 right-2 p-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+                          aria-label="Remove image"
+                        >
+                          <FiX className="text-white" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1 gap-2 flex flex-col">
-                <Input
-                  size="md"
-                  variant="filled"
-                  type="text"
-                  className="text-sm "
-                  label="Product name"
-                  placeholder="Enter product name"
-                  {...register("productName")}
-                  isInvalid={errors.productName}
-                  errorMessage={errors.productName?.message}
-                />
-                <Select
-                  items={ProductCategory}
-                  label="product Category"
-                  placeholder="Select product Category"
-                  variant="filled"
-                  className="flex-1"
-                  errorMessage={errors.category?.message}
-                  {...register("category")}
-                  isInvalid={errors.category}
-                >
-                  {ProductCategory.map((item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      {item.value}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <div className="flex  gap-2">
+
+                {/* Form Fields Section */}
+                <div className="space-y-4">
                   <Input
-                    size="md"
-                    variant="filled"
-                    type="number"
-                    className="text-sm "
-                    label="Product quantity"
-                    placeholder="Enter product quantity"
-                    {...register("quantity")}
-                    isInvalid={errors.quantity}
-                    errorMessage={errors.quantity?.message}
+                    label="Product Name"
+                    variant="bordered"
+                    size="sm"
+                    classNames={{
+                      label: "text-gray-300 font-medium",
+                      input: "text-white",
+                      inputWrapper: "border-gray-600 bg-gray-700",
+                    }}
+                    {...register("productName")}
+                    isInvalid={!!errors.productName}
+                    errorMessage={errors.productName?.message}
                   />
+
+                  <Select
+                    label="Product Category"
+                    variant="bordered"
+                    size="sm"
+                    classNames={{
+                      label: "text-gray-300 font-medium",
+                      trigger: "border-gray-600 bg-gray-700",
+                      value: "text-white",
+                    }}
+                    {...register("category")}
+                    isInvalid={!!errors.category}
+                    errorMessage={errors.category?.message}
+                  >
+                    {ProductCategory.map((item) => (
+                      <SelectItem
+                        key={item.value}
+                        value={item.value}
+                        className="text-white bg-gray-800 hover:bg-gray-700"
+                      >
+                        {item.value}
+                      </SelectItem>
+                    ))}
+                  </Select>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input
+                      label="Quantity"
+                      type="number"
+                      variant="bordered"
+                      size="sm"
+                      classNames={{
+                        label: "text-gray-300 font-medium",
+                        input: "text-white",
+                        inputWrapper: "border-gray-600 bg-gray-700",
+                      }}
+                      {...register("quantity")}
+                      isInvalid={!!errors.quantity}
+                      errorMessage={errors.quantity?.message}
+                    />
+                    <Input
+                      label="Price ($)"
+                      type="number"
+                      variant="bordered"
+                      size="sm"
+                      classNames={{
+                        label: "text-gray-300 font-medium",
+                        input: "text-white",
+                        inputWrapper: "border-gray-600 bg-gray-700",
+                      }}
+                      {...register("price")}
+                      isInvalid={!!errors.price}
+                      errorMessage={errors.price?.message}
+                    />
+                  </div>
+
                   <Input
-                    size="md"
-                    variant="filled"
-                    type="number"
-                    className="text-sm "
-                    label="Product price"
-                    placeholder="Enter product price"
-                    {...register("price")}
-                    isInvalid={errors.price}
-                    errorMessage={errors.price?.message}
-                  />
-                </div>
-                <div className="flex  gap-2">
-                  <Input
-                    size="md"
-                    variant="filled"
-                    type="text"
-                    className="text-sm "
                     label="Processor"
-                    placeholder="Enter processor"
+                    variant="bordered"
+                    size="sm"
+                    classNames={{
+                      label: "text-gray-300 font-medium",
+                      input: "text-white",
+                      inputWrapper: "border-gray-600 bg-gray-700",
+                    }}
                     {...register("processor")}
-                    isInvalid={errors.processor}
+                    isInvalid={!!errors.processor}
                     errorMessage={errors.processor?.message}
                   />
-                  <Input
-                    size="md"
-                    variant="filled"
-                    type="text"
-                    className="text-sm "
-                    label="OS"
-                    placeholder="Enter product os"
-                    {...register("os")}
-                    isInvalid={errors.os}
-                    errorMessage={errors.os?.message}
-                  />
-                </div>
 
-                <div className="flex  gap-2">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input
+                      label="Operating System"
+                      variant="bordered"
+                      size="sm"
+                      classNames={{
+                        label: "text-gray-300 font-medium",
+                        input: "text-white",
+                        inputWrapper: "border-gray-600 bg-gray-700",
+                      }}
+                      {...register("os")}
+                      isInvalid={!!errors.os}
+                      errorMessage={errors.os?.message}
+                    />
+                    <Input
+                      label="Graphics"
+                      variant="bordered"
+                      size="sm"
+                      classNames={{
+                        label: "text-gray-300 font-medium",
+                        input: "text-white",
+                        inputWrapper: "border-gray-600 bg-gray-700",
+                      }}
+                      {...register("graphics")}
+                      isInvalid={!!errors.graphics}
+                      errorMessage={errors.graphics?.message}
+                    />
+                  </div>
+
                   <Input
-                    size="md"
-                    variant="filled"
-                    type="text"
-                    className="text-sm "
-                    label="Graphics"
-                    placeholder="Enter graphics"
-                    {...register("graphics")}
-                    isInvalid={errors.graphics}
-                    errorMessage={errors.graphics?.message}
-                  />
-                  <Input
-                    size="md"
-                    variant="filled"
-                    type="text"
-                    className="text-sm "
                     label="Storage"
-                    placeholder="Enter storage"
+                    variant="bordered"
+                    size="sm"
+                    classNames={{
+                      label: "text-gray-300 font-medium",
+                      input: "text-white",
+                      inputWrapper: "border-gray-600 bg-gray-700",
+                    }}
                     {...register("storage")}
-                    isInvalid={errors.storage}
+                    isInvalid={!!errors.storage}
                     errorMessage={errors.storage?.message}
                   />
                 </div>
               </div>
-            </div>
 
-            <div className="flex justify-end">
-              <Button
-                type="submit"
-                size="large"
-                className="bg-black text-white mt-2"
-                loading={isSubmitting}
-              >
-                {isSubmitting ? "Updating..." : "Update"}
-              </Button>
-            </div>
-          </form>
-        </div>
+              <div className="flex justify-end mt-6 space-x-3">
+                <Button
+                  type="button"
+                  onClick={() => navigate("/dashboard/products/list")}
+                  className="bg-gray-600 hover:bg-gray-500 text-white font-medium"
+                  startContent={<FiX size={18} />}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-medium"
+                  isLoading={isSubmitting}
+                  startContent={!isSubmitting && <FiSave size={18} />}
+                >
+                  {isSubmitting ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </motion.div>
       </div>
     </Layout>
   );
 };
+
 export default EditProduct;

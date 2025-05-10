@@ -16,13 +16,15 @@ const userRouter = express.Router();
 userRouter.post("/login", userLogin);
 userRouter.post("/register", userRegister);
 userRouter.post("/register-admin", userRegisterAdmin);
-userRouter.get("/all", getAllUsers);  // Changed from "/" to avoid conflict
-userRouter.get("/profile/:id", getUserById);  // Changed from "/:id" to avoid conflict
+userRouter.get("/all", getAllUsers);  
+userRouter.get("/profile/:id", getUserById);  
 userRouter.put("/:id", updateUser);
 userRouter.delete("/:id", deleteUser);
 
+
 // Google Login Route
 userRouter.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
 
 // Google Callback Route
 userRouter.get("/google/callback",
@@ -31,7 +33,7 @@ userRouter.get("/google/callback",
     session: true 
   }),
   async (req, res) => {
-    // Generate a session token
+    
     if (!req.user) return res.status(401).json({ message: "Authentication failed" });
 
     // Generate a session token

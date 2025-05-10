@@ -16,7 +16,7 @@
     "axios": "^1.8.4",
     "chromedriver": "^135.0.4",
     "date-fns": "^4.1.0",
-    "framer-motion": "^12.6.2",
+    "framer-motion": "^12.9.4",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "pdfmake": "^0.2.19",
