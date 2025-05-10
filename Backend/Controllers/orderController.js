@@ -44,7 +44,7 @@ export const createOrder = async (req, res) => {
 
     await newOrder.save();
 
-    await checkAndGenerateCoupon(req.user.id);
+   
 
     res.status(201).json(newOrder);
   } catch (error) {
