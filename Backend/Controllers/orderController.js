@@ -7,18 +7,19 @@ dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 console.log(process.env.STRIPE_SECRET_KEY);
+
 export const createPaymentIntent = async (req, res) => {
   const { cart, shippingAddress, totalPrice, user } = req.body;
-  console.log("cart", cart);
-  console.log("shippingAddress", shippingAddress);
-  console.log("totalPrice", totalPrice);
-  console.log("user", user);
+
+  if (!cart || !shippingAddress || !totalPrice || !user) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalPrice * 100,
+      amount: Math.round(totalPrice * 100), // Convert to cents (USD)
       currency: "usd",
       payment_method_types: ["card"],
-      // description: `Order for user ${user._id}`,
     });
 
     res.status(201).json({
@@ -39,10 +40,10 @@ export const createOrder = async (req, res) => {
       shippingAddress,
       paymentMethod,
       totalPrice,
-      user,
+      user: user._id, // Use user._id instead of the full user object
     });
 
-    
+    await newOrder.save(); // Save the order to the database
 
     res.status(201).json(newOrder);
   } catch (error) {
@@ -53,17 +54,15 @@ export const createOrder = async (req, res) => {
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find().populate("user");
-
     res.status(200).json(orders);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
 };
 
-export const getOrdersByUserId = async (req, res) => { 
+export const getOrdersByUserId = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.params.id });
-
     res.status(200).json(orders);
   } catch (error) {
     res.status(409).json({ message: error.message });
@@ -83,7 +82,6 @@ export const updateOrderStatus = async (req, res) => {
     }
 
     order.orderStatus = orderStatus;
-
     await order.save();
 
     res.status(200).json(order);
@@ -109,7 +107,10 @@ export const checkAndGenerateCoupon = async (userId) => {
     const user = await User.findById(userId);
 
     if (!user.coupon || !user.coupon.isActive) {
-      const generatedCode = `LOYAL-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+      const generatedCode = `LOYAL-${Math.random()
+        .toString(36)
+        .substring(2, 8)
+        .toUpperCase()}`;
 
       user.coupon = {
         code: generatedCode,
