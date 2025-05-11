@@ -1,4 +1,4 @@
-import mongoose, { disconnect } from "mongoose";
+import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
   orderItems: [
@@ -28,11 +28,10 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: { type: String, required: true },
   totalPrice: { type: Number, required: true },
-  orderStatus:{
+  orderStatus: {
     type: String,
     default: "Pending",
-  
-  }
+  },
 });
 
 const orders = mongoose.model("Order", orderSchema);

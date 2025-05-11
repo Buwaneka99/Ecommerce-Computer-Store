@@ -5,11 +5,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { createServer } from "http";
 import session from "express-session";
-
-// Google Auth
 import passport from "./Config/passport.js";
-
-// Import Routes
 import userRoute from "./Routes/UserRoute.js";
 import supplyRoute from "./Routes/supplyRoute.js";
 import supplyRequestRoute from "./Routes/supplyRequestRoute.js";
@@ -24,16 +20,17 @@ const app = express();
 const server = createServer(app);
 const PORT = process.env.PORT || 5000;
 
-// ✅ Middleware
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-// ✅ MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB database connection established successfully");
   })
@@ -42,40 +39,34 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
-// ✅ Session
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'keyboard cat',
+    secret: process.env.SESSION_SECRET || "keyboard cat",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
   })
 );
 
-// ✅ Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ Get current logged-in user
-app.get('/api/user', (req, res) => {
+app.get("/api/user", (req, res) => {
   if (req.user) res.json(req.user);
   else res.status(401).json({ error: "Not logged in" });
 });
 
-// ✅ Logout
-app.get('/auth/logout', (req, res) => {
-  req.logout(err => {
+app.get("/auth/logout", (req, res) => {
+  req.logout((err) => {
     if (err) return res.status(500).json({ error: "Logout failed" });
-    res.redirect('http://localhost:3000');
+    res.redirect("http://localhost:3000");
   });
 });
 
-// ✅ Health Check Route
 app.get("/message", (req, res) => {
   res.status(200).json({ message: "Message endpoint is working!" });
 });
 
-// ✅ Main API Routes
 app.use("/auth", userRoute);
 app.use("/supplies", supplyRoute);
 app.use("/supply-request", supplyRequestRoute);
@@ -84,9 +75,7 @@ app.use("/products", productRoute);
 app.use("/orders", orderRoute);
 app.use("/services", serviceRouter);
 
-// ✅ Start Server
 server.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
   console.log(`🔐 Google Auth callback URL: ${process.env.GOOGLE_CALLBACK_URL}`);
 });
-
