@@ -11,6 +11,7 @@ import {
   TableRow,
   Tooltip,
   useDisclosure,
+  DatePicker,
 } from "@nextui-org/react";
 import { FaUserEdit } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
@@ -25,6 +26,7 @@ const CouponList = () => {
   const [page, setPage] = useState(1);
   const [coupon, setCoupon] = useState([]);
   const [search, setSearch] = useState("");
+  const [expirySearch, setExpirySearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [couponId, setCouponId] = useState("");
   const [refetch, setRefetch] = useState(false);
@@ -36,10 +38,21 @@ const CouponList = () => {
   const pages = Math.ceil(coupon.length / rowsPerPage);
 
   const filteredCoupon = useMemo(() => {
-    return coupon.filter((item) =>
-      item.couponCode.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search, coupon]);
+    return coupon.filter((item) => {
+      const matchesSearch = item.couponCode.toLowerCase().includes(search.toLowerCase()) ||
+        item.discount.toString().includes(search);
+      
+      if (!expirySearch) return matchesSearch;
+      
+      const itemDate = new Date(item.expiryDate);
+      const searchDate = new Date(expirySearch);
+      
+      return matchesSearch && 
+        itemDate.getFullYear() === searchDate.getFullYear() &&
+        itemDate.getMonth() === searchDate.getMonth() &&
+        itemDate.getDate() === searchDate.getDate();
+    });
+  }, [search, expirySearch, coupon]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -91,6 +104,11 @@ const CouponList = () => {
     doc.save("coupon-list-report.pdf");
   };
 
+  const clearAllFilters = () => {
+    setSearch("");
+    setExpirySearch(null);
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -110,14 +128,29 @@ const CouponList = () => {
           </h1>
         </div>
         <div className="flex w-[1000px] justify-between">
-          <div>
+          <div className="flex items-center gap-4">
             <Input
               isClearable
               radius="full"
               placeholder="Search coupon..."
               startContent={<IoSearch />}
               onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              className="w-[250px]"
             />
+            <DatePicker
+              label="Search by expiry date"
+              value={expirySearch}
+              onChange={setExpirySearch}
+              className="w-[200px]"
+              isClearable
+            />
+            <button
+              className="bg-gray-500 text-white px-4 py-2 text-sm rounded-lg hover:bg-gray-600 transition-colors whitespace-nowrap"
+              onClick={clearAllFilters}
+            >
+              Clear All Filters
+            </button>
           </div>
           <button
             className="bg-blue-500 text-white px-4 text-sm rounded-lg"
@@ -150,7 +183,14 @@ const CouponList = () => {
               <TableColumn>Expiry Date</TableColumn>
               <TableColumn>Action</TableColumn>
             </TableHeader>
-            <TableBody>
+            <TableBody
+              emptyContent={
+                <div className="flex flex-col items-center justify-center py-8">
+                  <p className="text-gray-500 text-lg">No coupons found</p>
+                  <p className="text-gray-400 text-sm">Try adjusting your search criteria</p>
+                </div>
+              }
+            >
               {items.map((item, index) => {
                 const date = new Date(item.expiryDate);
 

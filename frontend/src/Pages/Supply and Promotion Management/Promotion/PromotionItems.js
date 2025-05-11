@@ -24,6 +24,7 @@ const PromotionItems = () => {
   const [page, setPage] = useState(1);
   const [product, setProduct] = useState([]);
   const [search, setSearch] = useState("");
+  const [priceSearch, setPriceSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [refetch, setRefetch] = useState(false);
@@ -34,12 +35,17 @@ const PromotionItems = () => {
   const pages = Math.ceil(product.length / rowsPerPage);
 
   const filteredStaff = useMemo(() => {
-    return product.filter((item) =>
-      item.productName.toLowerCase().includes(search.toLowerCase()) ||
-      item.category.toLowerCase().includes(search.toLowerCase()) ||
-      item.discount.toString().includes(search.toLowerCase())
-    );
-  }, [search, product]);
+    return product.filter((item) => {
+      const matchesSearch = item.productName.toLowerCase().includes(search.toLowerCase()) ||
+        item.category.toLowerCase().includes(search.toLowerCase()) ||
+        item.discount.toString().includes(search.toLowerCase());
+      
+      const matchesPrice = priceSearch === "" || 
+        item.price.toString().includes(priceSearch);
+      
+      return matchesSearch && matchesPrice;
+    });
+  }, [search, priceSearch, product]);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -82,13 +88,24 @@ const PromotionItems = () => {
           </h1>
         </div>
         <div className="flex w-[1000px] justify-between">
-          <div>
+          <div className="flex gap-4">
             <Input
               isClearable
               radius="full"
               placeholder="Search product..."
               startContent={<IoSearch />}
               onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              className="w-[250px]"
+            />
+            <Input
+              isClearable
+              radius="full"
+              placeholder="Search by price..."
+              startContent={<IoSearch />}
+              onChange={(e) => setPriceSearch(e.target.value)}
+              value={priceSearch}
+              className="w-[200px]"
             />
           </div>
         </div>
