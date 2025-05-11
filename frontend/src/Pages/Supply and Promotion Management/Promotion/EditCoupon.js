@@ -7,7 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { format } from "date-fns"; 
+import { format, addDays, subDays } from "date-fns"; 
 
 const formSchema = yup.object().shape({
   couponCode: yup
@@ -18,7 +18,9 @@ const formSchema = yup.object().shape({
   expiryDate: yup
     .date()
     .required("Expire date is required")
-    .typeError("Invalid date"),
+    .typeError("Invalid date")
+    .min(subDays(new Date(), 1), "Expiry date must be from today onwards")
+    .max(addDays(new Date(), 60), "Expiry date cannot be more than 60 days from now"),
 });
 
 const EditCoupon = () => {
@@ -146,7 +148,15 @@ const EditCoupon = () => {
                 />
               )}
             />
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-4">
+              <Button
+                type="button"
+                size="large"
+                className="bg-gray-500 text-white mt-2"
+                onClick={() => navigate("/dashboard/promotion/coupon/list")}
+              >
+                Cancel
+              </Button>
               <Button
                 type="submit"
                 size="large"
