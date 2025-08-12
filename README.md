@@ -69,6 +69,9 @@ npm install
 # - GOOGLE_CLIENT_ID
 # - GOOGLE_CLIENT_SECRET
 # - STRIPE_SECRET (if applicable)
+and add 
+# - GOOGLE_CALLBACK_URL=/auth/google/callback
+# - SESSION_SECRET=Skill_Shareing_Platform_Development
 npm start
 ```
 
