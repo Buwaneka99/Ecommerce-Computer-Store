@@ -7,15 +7,6 @@ This application provides secure user authentication, seamless order processing,
 
 ## 🚀 Key Features
 
-### 🛒 Sales & Order Management
-- Add items to cart and proceed to checkout with **Cash on Delivery** or **Card Payments**.
-- Admin dashboard for:
-  - Approving or rejecting orders
-  - Updating order status (e.g., *Shipped*, *Delivered*)
-  - Viewing full order history
-- Real-time **inventory sync** to prevent overselling.
-- Automated **customer notifications** and **PDF sales reports** (daily, weekly, monthly).
-
 ### 📦 Supply & Promotion Management
 - Central dashboard for managing suppliers (company info, contract terms, and performance).
 - Create and track **promotions** with:
@@ -24,6 +15,15 @@ This application provides secure user authentication, seamless order processing,
   - Eligibility rules
 - Automatically pause promotions if related items go out of stock.
 - Visual analytics to measure campaign performance.
+
+### 🛒 Sales & Order Management
+- Add items to cart and proceed to checkout with **Cash on Delivery** or **Card Payments**.
+- Admin dashboard for:
+  - Approving or rejecting orders
+  - Updating order status (e.g., *Shipped*, *Delivered*)
+  - Viewing full order history
+- Real-time **inventory sync** to prevent overselling.
+- Automated **customer notifications** and **PDF sales reports** (daily, weekly, monthly).
 
 ### 🧾 Inventory Management
 - Full product catalog management:
@@ -66,6 +66,8 @@ npm install
 # Create a `.env` file with the following:
 # - MONGODB_URI
 # - JWT_SECRET
+# - GOOGLE_CLIENT_ID
+# - GOOGLE_CLIENT_SECRET
 # - STRIPE_SECRET (if applicable)
 npm start
 ```
